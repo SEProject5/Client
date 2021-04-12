@@ -28,12 +28,12 @@ a{
 .navbar__menu{
     display: flex;
     list-style: none;
-    padding-left: 20;
+    padding-left: 0;
 }
 
 .navbar__menu li{
     padding: 8px 12px;
-    margin: 10%;
+    display: flex;
 }
 
 .navbar__menu li:hover{
