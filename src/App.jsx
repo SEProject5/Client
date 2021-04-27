@@ -1,22 +1,26 @@
 import React, {Component} from 'react';
 import { BrowserRouter,Route, Link, Switch, Redirect } from "react-router-dom";
-import Header from './components/Common/Header';
+import styled from 'styled-components';
+import Layout from '../src/components/Common/Layout';
+import Shop from './pages/Shop';
+import Product from './pages/Product';
 import Home from './pages/Home';
 import SignUp from './pages/SignUp';
-import Login from './pages/Login';
-import Footer from './components/Common/Footer';
+import Admin from './pages/Admin';
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <Switch>
-        <Route exact path='/' component={Home}/>
-        <Route path='/login' component={Login}/>
-        <Route path='/signup' component={SignUp}/>   
-        <Redirect from="*" to="/" />   
-      </Switch>
-      <Footer />
+        <Switch>
+``        <Route path='/admin' component={Admin}/>
+          <Layout>
+            <Route exact path='/' component={Home}/>
+            <Route exact path='/shop/:category' component={Shop}/>
+            <Route exact path='/product/:id' component={Product}/>
+            <Route path='/signup' component={SignUp}/>   
+          </Layout>
+          {/* <Redirect from="*" to="/" />    */}
+        </Switch>
     </BrowserRouter>
   );
 }
