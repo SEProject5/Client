@@ -4,8 +4,7 @@ export const SEEITEM = [{
     "id":1,
     "name":"누디진",
     "price":200000,
-    "mainCategory":"Bottom",
-    "subCategory":"subBottom",
+    "Category":"Bottom",
     "files":[{
       "id":1,
       "url": "https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EB%88%84%EB%94%94%EC%A7%84.gif?alt=media&token=b63ccd0a-23a1-4dad-9f3c-1206a21eb847"
