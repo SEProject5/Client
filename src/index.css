@@ -1,3 +1,20 @@
+@font-face {
+  font-family: 'NotoSansLight';
+  src: url(./util/font/NotoSansLight.otf);
+}
+
+@font-face {
+  font-family: 'NotoSansBold';
+  src: url(./util/font/NotoSansBold.otf);
+}
+
+@font-face {
+  font-family: 'NotoSansBlack';
+  src: url(./util/font/NotoSansBlack.otf);
+}
+
+
 body {
   margin: 0;
+  font-family: 'NotoSansBold';
 }
