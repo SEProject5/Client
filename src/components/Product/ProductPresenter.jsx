@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Loader from "../Common/Loader";
 import Button from '../Common/Button';
-import Scroll from "react-scroll"; 
 import { UpArrowIcon, CartIcon, CloseIcon } from '../Common/Icons';
 import { Link } from "react-router-dom";
 import { addComma } from "../../util/function/SharedFunction";
@@ -21,7 +20,6 @@ export default function ProductPresenter({
     decrement,
     increment,
     total,
-    scroll,
     deleteSelect,
     addCart,
     success,
@@ -166,7 +164,6 @@ export default function ProductPresenter({
 
 
 
-const animationScroll = Scroll.animateScroll;
 
 const options = {
     smooth: true,

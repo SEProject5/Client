@@ -1,20 +1,23 @@
 import React from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
-import HomeSlideData from '../../dummyData/HomeSlideData.json';
+import NoticeData from '../../dummyData/NoticeData.json';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import useFetch from "../../lib/api/useFetch";
 
 const Slide = ({ }) => {
+    const {loading, data, error} = useFetch('/banner?order=0');
     return (
       <Section>
           <Slider {...settings}>
-              {HomeSlideData.map((data, index) => (
+              {NoticeData.map((data, index) => {
+                  return (
                   <SliderDiv key={data.id}>
                       <img src={data.url} alt={index} />
                   </SliderDiv>
-              ))}
+                  )
+            })}
           </Slider>
       </Section>
     )
@@ -40,7 +43,7 @@ const settings = {
   }
 
   const SliderDiv = styled.div`
-      height: 50vh;
+      height: 70vh;
       img {
           width: 100%;
           height: 100%;

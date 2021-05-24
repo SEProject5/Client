@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import useFetch from '../../lib/api/useFetch';
 import ProductPresenter from "./ProductPresenter";
 import { SEEITEM, ADD_CART, ADD_PAYMENT } from "../../dummyData/ProductData";
 
@@ -10,6 +11,10 @@ export default function ProductContainer({ match, history }){
     const productId = 0;
     // const productId = match.params.productid;
 
+    // const {loading, data2, error} = useFetch('https://jsonplaceholder.typicode.com/users');
+    const {loading, data2, error} = useFetch(`http://ec2-18-116-105-214.us-east-2.compute.amazonaws.com:3000/product/:${productId}`);
+    console.log(data2);
+    
     const selectSize = document.getElementById("selectSize");
 
     const [selected, setSelected] = useState([]);
@@ -26,19 +31,9 @@ export default function ProductContainer({ match, history }){
 
     const [myId, setMyId] = useState("");
     const data = SEEITEM[productId]
-    // const { data, loading } = useQuery(SEEITEM, {
-    //     variables: {
-    //         id: productId
-    //     }
-    // });
 
     const [total, setTotal] = useState(0);
 
-    // scroll state 
-    const [scroll, setScroll] = useState({
-        x: 0,
-        y: 0
-    })
 
     // size와 재고량, color를 같이 묶어주기 위한 배열객체 
     let option = [];
@@ -213,15 +208,6 @@ export default function ProductContainer({ match, history }){
         }
     }
 
-    const onScroll = () => {
-        setScroll({ x: window.scrollX, y: window.scrollY });
-    }
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        window.addEventListener("scroll", onScroll);
-        return () => window.removeEventListener("scroll", onScroll)
-    }, [])
 
     // 옵션 삭제 
     const deleteSelect = (index, selected) => {
@@ -380,7 +366,6 @@ export default function ProductContainer({ match, history }){
             increment={increment}
             decrement={decrement}
             total={total}
-            scroll={scroll}
             deleteSelect={deleteSelect}
             addCart={addCart}
             success={success}
