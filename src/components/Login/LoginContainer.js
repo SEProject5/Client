@@ -14,6 +14,7 @@ const LoginContainer = ({ history }) => {
     authError: auth.authError,
     user: user.user,
   }));
+
   // 인풋 변경 이벤트 핸들러
   const onChange = e => {
     const { value, name } = e.target;
@@ -32,6 +33,7 @@ const LoginContainer = ({ history }) => {
     const { id, password } = form;
     dispatch(login({ id, password }));
   };
+
   const onLogout = () => {
     dispatch(logout());
   };
@@ -42,31 +44,19 @@ const LoginContainer = ({ history }) => {
   }, [dispatch]);
 
   // useEffect(() => {
-  //   if (authError) {
-  //     console.log('오류 발생');
-  //     console.log(authError);
-  //     setError('로그인 실패');
-  //     return;
+  //   if (user) {
+  //     try {
+  //       localStorage.setItem('user', JSON.stringify(user));
+  //       if (user.user_type === 'admin') {
+  //         history.push('/admin');
+  //       } else {
+  //         history.push('/');
+  //       }
+  //     } catch (e) {
+  //       console.log('localStorage is not working');
+  //     }
   //   }
-  //   if (auth) {
-  //     console.log('로그인 성공');
-  //   }
-  // }, [auth, authError, dispatch]);
-
-  useEffect(() => {
-    if (user) {
-      try {
-        localStorage.setItem('user', JSON.stringify(user));
-        if (user.user_type === 'admin') {
-          history.push('/admin');
-        } else {
-          history.push('/');
-        }
-      } catch (e) {
-        console.log('localStorage is not working');
-      }
-    }
-  }, [history, user]);
+  // }, [history, user]);
 
   return (
     <LoginForm

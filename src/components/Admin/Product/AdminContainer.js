@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
+import client from '../../../lib/api/client';
 import AdminPresenter from './AdminPresenter';
-import { UPLOAD, EDIT_SEE_PRODUCT } from '../../../dummyData/AdminData';
+import { EDIT_SEE_PRODUCT } from '../../../dummyData/AdminData';
+import { id } from 'date-fns/locale';
 
 export default () => {
   // Admin창의 tab메뉴
@@ -11,30 +13,74 @@ export default () => {
 
   // state
   // 상품 등록을 위한 state
-  //   const [smallClassification, setSmall] = useState([]); // 대분류에 따른 소분류 값을 넣어주기 위한 state (option)
   const [name, setName] = useState(''); // 상품 이름
   const [price, setPrice] = useState(0); // 상품 가격
   const [category, setCategory] = useState(''); // 대분류 선택값
-  //   const [category, setSubCategory] = useState(''); // 소분류 선택값
-  const [color, setColor] = useState([]); // 상품 색깔
-  const [size, setSize] = useState([]); // 상품 사이즈
-  const [stock, setStock] = useState([]); // 상품 제고
+  const [stock, setStock] = useState(0); // 상품 제고
   const [file, setFile] = useState('');
   const [fileUrl, setFileUrl] = useState([]);
 
   // 상품 수정을 위한 state
 
   const [editData, setEditData] = useState();
-
   const [editData2, setEditData2] = useState();
-  const [sizeId, setSizeId] = useState([]);
-  const [colorId, setColorId] = useState([]);
-  const [stockId, setStockId] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
 
   // ref
   const previewImg = useRef();
   const previewEditImg = useRef();
+
+  const [searchTitle, setSearchTitle] = useState('');
+  const [searchPrice, setSearchPrice] = useState('');
+  const [lowPrice, setLowPrice] = useState(0);
+  const [highPrice, setHighPrice] = useState(10000000);
+
+  const onSearch = () => {
+    if (!lowPrice) {
+      setLowPrice(0);
+    }
+    if (!highPrice) {
+      setHighPrice(10000000);
+    }
+    let url = ``;
+    if (!searchPrice && searchTitle) {
+      url = `/product/sort?keyword=${searchTitle}`;
+    } else if (searchPrice && !searchTitle) {
+      url = `/product/sort?orderPrice=${searchPrice}`;
+    } else if (searchPrice && searchTitle) {
+      url = `/product/sort?orderPrice=${searchPrice}&keyword=${searchTitle}`;
+    } else {
+      url = `/product/sort`;
+    }
+    const fetchUsers = async () => {
+      try {
+        const response = await client.get(url, {
+          lowPrice: lowPrice,
+          highPrice: highPrice,
+        });
+        setEditData(response.data);
+        console.log(response.data);
+      } catch (e) {
+        console.log('fetch 실패');
+      }
+    };
+    fetchUsers();
+  };
+
+  const handleSearchTitle = e => {
+    setSearchTitle(e.target.value);
+  };
+
+  const handleSearchPrice = e => {
+    setSearchPrice(e.target.value);
+  };
+
+  const handleLowPrice = e => {
+    setLowPrice(e.target.value);
+  };
+  const handleHighPrice = e => {
+    setHighPrice(e.target.value);
+  };
 
   useEffect(() => {
     if (tab === 'enrollment') {
@@ -46,14 +92,15 @@ export default () => {
   }, [tab]);
 
   ////////////////////////////////////// 상품 등록 ////////////////////////////////////////////////////////////////
+  const checkPrice = /^[0-9]$/g;
 
   const uploadFunction = async () => {
     const { data } = {
-      name: name,
+      p_name: name,
       price: price,
-      category: category,
+      categoryName: category,
       files: [fileUrl],
-      stocks: stock,
+      stock: stock,
       productDetailFiles: file,
     };
 
@@ -62,32 +109,20 @@ export default () => {
       setName('');
       setPrice(0);
       setCategory('');
-      //   setSubCategory('');
       setFileUrl([]);
       setFile('');
-      setColor([]);
-      setSize([]);
-      setStock([]);
+      setStock(0);
 
       alert('업로드가 완료되었습니다');
 
       // Form 입력값 초기화
-      let colorClass = document.getElementsByClassName('color');
-      let sizeClass = document.getElementsByClassName('size');
-      let stockClass = document.getElementsByClassName('stock');
 
       document.getElementById('Name').value = '';
       document.getElementById('Price').value = '';
       previewImg.current.src =
         'https://www.namdokorea.com/site/jeonnam/tour/images/noimage.gif';
       document.getElementById('mainCategorySelect').value = '0';
-      document.getElementById('subCategorySelect').value = '0';
-
-      for (let i = 0; i < stockClass.length; i++) {
-        colorClass[i].value = '';
-        sizeClass[i].value = '';
-        stockClass[i].value = '';
-      }
+      document.getElementById('Stock').value = '';
     }
   };
 
@@ -97,55 +132,12 @@ export default () => {
     setCategory(e.target.value);
   };
 
-  // 테이블 행 추가
-  const addTable = () => {
-    const tbody = document.getElementById('tbody');
-    const row = tbody.insertRow(tbody.rows.length);
-    const cell1 = row.insertCell(0);
-    const cell2 = row.insertCell(1);
-    const cell3 = row.insertCell(2);
-    let input = document.createElement('input');
-    let input2 = document.createElement('input');
-    let input3 = document.createElement('input');
-    input.className = 'color';
-    input2.className = 'size';
-    input3.className = 'stock';
-    cell1.appendChild(input);
-    cell2.appendChild(input2);
-    cell3.appendChild(input3);
-  };
-
   const customFileBtn = () => {
     document.getElementById('fileInput').click();
   };
 
   // 이미지 미리보기 기능
   const preview = e => {
-    // const fileArr = e.target.files;
-    // let fileURLs = [];
-
-    // let file;
-    // let filesLength = fileArr.length > 10 ? 10 : fileArr.length;
-
-    // let reader = new FileReader();
-    // reader.onload = () => {
-    //   console.log(reader.result);
-    //   previewImg.current.src = reader.result;
-    //   fileURLs[0] = reader.result;
-    //   setDetailImgs([...fileURLs]);
-    //   reader.readAsDataURL(fileArr[0]);
-    // };
-    // setFile(fileArr[0]);
-
-    // for (let i = 1; i < filesLength; i++) {
-    //   file = fileArr[i];
-    //   let reader = new FileReader();
-    //   reader.onload = () => {
-    //     fileURLs[i] = reader.result;
-    //     setDetailImgs([...fileURLs]);
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
     const getFile = e.target.files;
     const reader = new FileReader();
 
@@ -159,87 +151,6 @@ export default () => {
     }
   };
 
-  const onSubmit = async e => {
-    e.preventDefault();
-
-    let colorClass = document.getElementsByClassName('color');
-    let sizeClass = document.getElementsByClassName('size');
-    let stockClass = document.getElementsByClassName('stock');
-    const nameValue = document.getElementById('Name').value;
-    const priceValue = document.getElementById('Price').value;
-
-    // color, size, stock state에 배열값을 한번에 집어 넣기 위한 빈 배열 값 (buf 역할)
-    let colorArray = [];
-    let sizeArray = [];
-    let stockArray = [];
-
-    // 값 검사
-    if (nameValue === '' || nameValue === null || nameValue === undefined) {
-      alert('상품명을 입력해주세요');
-      return false;
-    } else if (
-      priceValue === '' ||
-      priceValue === null ||
-      priceValue === undefined
-    ) {
-      alert('상품 가격을 입력해주세요');
-      return false;
-    } else if (category === '' || category === 0) {
-      alert('대분류를 선택해주세요');
-      return false;
-    } else if (file === '') {
-      alert('상품 이미지를 선택해주세요');
-      return false;
-    } else {
-      setName(nameValue);
-      setPrice(Number(priceValue));
-
-      for (let i = 0; i < stockClass.length; i++) {
-        if (
-          colorClass[i].value === '' ||
-          sizeClass[i].value === '' ||
-          stockClass.value === ''
-        ) {
-          alert('재고, 색상, 사이즈의 입력이 필요합니다.');
-          return false;
-        } else {
-          // 값이 들어 있는 행의 값들을 각각의 배열에 push한다.
-          // state에 넣기 위해서
-          colorArray.push(colorClass[i].value);
-          sizeArray.push(sizeClass[i].value);
-          stockArray.push(Number(stockClass[i].value));
-        }
-      }
-    }
-
-    if (
-      colorArray.length === 0 ||
-      sizeArray.length === 0 ||
-      stockArray.length === 0
-    ) {
-      alert('옵션 값을 입력해주세요');
-      return false;
-    } else {
-      setColor(colorArray);
-      setSize(sizeArray);
-      setStock(stockArray);
-    }
-
-    // 수정인지 등록인지 구분
-    // 수정이라면 ediTdata2가 존재하고 등록이라면 존재하지 않는다.
-    if (editData2 !== undefined) {
-      if (file !== editData2.files[0].url) {
-        // 파일 업데이트 코드
-        console.log(editData2.files[0].url, '업데이트!!');
-      } else {
-        setIsEdit(true);
-      }
-    } else {
-      // 파일 업로드 코드
-      console.log(file, '업로드');
-    }
-  };
-
   // 파일에 대한 처리가 가장 늦으므로 fileUrl에 값이 들어오면 uploadFunction을 실행시킴
   // file이 아니라 다른값을 하게 되면 fileUrl 에 값이 들어오기도 전에 upload가 실행되서 파일에 대한 값이 들어가지 못함
   useEffect(() => {
@@ -248,7 +159,7 @@ export default () => {
       name !== '' &&
       price !== '' &&
       fileUrl.length !== 0 &&
-      color.lnegth !== 0
+      stock !== 0
     ) {
       uploadFunction();
     }
@@ -312,77 +223,14 @@ export default () => {
     }
 
     // 수정버튼을 클릭한 상품의 정보를 보여주기 위한 Mutation
-    const data = EDIT_SEE_PRODUCT[id - 1];
+    const data = EDIT_SEE_PRODUCT.filter(obj => obj.p_id === id)[0];
 
     if (data) {
       setEditData2(data);
       setFile(data.files[0].url);
-      setName(data.name);
+      setName(data.p_name);
       setPrice(data.price);
-
-      let sizeIdArray = [];
-      let colorIdArray = [];
-      let stockIdArray = [];
-      for (let i = 0; i < data.stocks.length; i++) {
-        sizeIdArray.push(data.sizes[i].id);
-        colorIdArray.push(data.colors[i].id);
-        stockIdArray.push(data.stocks[i].id);
-      }
-      setSizeId(sizeIdArray);
-      setColorId(colorIdArray);
-      setStockId(stockIdArray);
-
-      // // eslint-disable-next-line
-      // for (
-      //   let i, j = 0;
-      //   (i = document.getElementById('mainSelect').options[j]);
-      //   j++
-      // ) {
-      //   if (i.value === data[0].category) {
-      //     document.getElementById('mainSelect').selectedIndex = j;
-      //     if (document.getElementById('mainSelect').selectedIndex === 1) {
-      //       setCategory('Top');
-      //     } else if (
-      //       document.getElementById('mainSelect').selectedIndex === 2
-      //     ) {
-      //       setCategory('Bottom');
-      //     }
-      //     break;
-      //   }
-      // }
-
-      // eslint-disable-next-line
-      // for (
-      //   let i, j = 0;
-      //   (i = document.getElementById('subSelect').options[j]);
-      //   j++
-      // ) {
-      //   if (i.value === data[0].category) {
-      //     document.getElementById('subSelect').selectedIndex = j;
-      //     if (
-      //       document.getElementById('mainSelect').selectedIndex === 1 &&
-      //       document.getElementById('subSelect').selectedIndex === 1
-      //     ) {
-      //       // setSubCategory('티셔츠');
-      //     } else if (
-      //       document.getElementById('mainSelect').selectedIndex === 1 &&
-      //       document.getElementById('subSelect').selectedIndex === 2
-      //     ) {
-      //       // setSubCategory('셔츠');
-      //     } else if (
-      //       document.getElementById('mainSelect').selectedIndex === 2 &&
-      //       document.getElementById('subSelect').selectedIndex === 1
-      //     ) {
-      //       // setSubCategory('청바지');
-      //     } else if (
-      //       document.getElementById('mainSelect').selectedIndex === 2 &&
-      //       document.getElementById('subSelect').selectedIndex === 2
-      //     ) {
-      //       // setSubCategory('슬랙스');
-      //     }
-      //     break;
-      //   }
-      // }
+      setStock(data.stock);
     }
   };
 
@@ -393,17 +241,11 @@ export default () => {
       setName('');
       setPrice(0);
       setCategory('');
-      //   setSubCategory('');
       setFileUrl([]);
       setFile('');
-      setColor([]);
-      setSize([]);
-      setStock([]);
+      setStock(0);
       setEditData2();
       setIsEdit(false);
-      setSizeId([]);
-      setColorId([]);
-      setStockId([]);
 
       seeProductFunction(); // 모든 값을 초기화 시켜줬으면 다시 전체상품 보여주는 Mutation을 실행시킴으로써 변경값을 업데이트 시켜준다.
       document.getElementById('modal').style.display = 'none';
@@ -422,13 +264,34 @@ export default () => {
   //   const deleteProductMutation = useMutation(DELETE_PRODUCT);
 
   const deleteClick = async id => {
-    let result = window.confirm('해당 상품을 삭제하시겠습니까?');
+    let message = window.confirm('해당 상품을 삭제하시겠습니까?');
 
-    if (result) {
-      const { data } = UPLOAD[0].id;
-      if (data) {
-        seeProductFunction();
+    if (message) {
+      const result = {
+        p_id: id,
+        p_name: name,
+        description: file,
+        categoryName: category,
+        price: price,
+        stock: stock,
+      };
+      try {
+        client
+          .post(`/products/:${id}`, result)
+          .then(response => {
+            if (response.status !== 200) {
+              alert('상품 삭제 실패');
+              return;
+            }
+            alert('상품이 삭제되었습니다');
+          })
+          .catch(error => {
+            alert('삭제 실패');
+          });
+      } catch (e) {
+        console.error(e);
       }
+      seeProductFunction();
     }
   };
   // 로그아웃
@@ -436,12 +299,18 @@ export default () => {
 
   return (
     <AdminPresenter
-      //   logOut={logOut}
       customFileBtn={customFileBtn}
+      searchTitle={searchTitle}
+      handleSearchTitle={handleSearchTitle}
+      lowPrice={lowPrice}
+      handleLowPrice={handleLowPrice}
+      handleHighPrice={handleHighPrice}
+      handleSearchPrice={handleSearchPrice}
+      searchPrice={searchPrice}
+      highPrice={highPrice}
       selectChange={selectChange}
-      //   smallClassification={smallClassification}
-      addTable={addTable}
-      onSubmit={onSubmit}
+      onSearch={onSearch}
+      setIsEdit={setIsEdit}
       previewImg={previewImg}
       tab={tab}
       clickTab={clickTab}

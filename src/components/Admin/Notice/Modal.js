@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import client from '../../../lib/api/client';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,7 +29,7 @@ export default function (props) {
   const [startDate, setStartDate] = useState(editData.startDate);
   const [endDate, setEndDate] = useState(editData.endDate);
   const [file, setFile] = useState(editData.url);
-  const [previewUrl, setPreviewUrl] = useState(editData.url);
+  const [preview, setPreview] = useState(editData.url);
 
   const handleNoticeContent = e => {
     setNoticeContent(e.target.value);
@@ -48,37 +49,44 @@ export default function (props) {
   };
 
   const onEditSubmit = () => {
-    fetch(`/banner/:${currentId}`, {
-      method: 'PATCH',
+    const formData = new FormData();
+    formData.append('id', currentId);
+    formData.append('title', noticeTitle);
+    formData.append('content', noticeContent);
+    formData.append('startDate', startDate);
+    formData.append('endDate', endDate);
+    formData.append('img', file);
+    const config = {
       headers: {
-        'Content-Type': 'application/json',
+        'content-type': 'multipart/form-data',
       },
-      body: JSON.stringify({
-        id: currentId,
-        title: noticeTitle,
-        text: noticeContent,
-        startDate: startDate,
-        endDate: endDate,
-        file: file,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setNoticeTitle('');
-        setNoticeContent('');
-        setFile(null);
-        setPreviewUrl(null);
-        alert('공지가 등록되었습니다');
-      })
-      .catch(error => {
-        console.log('error:', error);
-      });
+    };
+    try {
+      client
+        .post('/banner', formData, config)
+        .then(response => {
+          if (response.status !== 200) {
+            alert('공지 등록 실패');
+            return;
+          }
+          setNoticeTitle('');
+          setNoticeContent('');
+          setFile(null);
+          setPreview(null);
+          alert('공지가 등록되었습니다');
+        })
+        .catch(error => {
+          alert('공지 등록 실패');
+        });
+    } catch (e) {
+      console.error(e);
+    }
   };
-  const processImage = event => {
+  const changeImage = event => {
     const imageFile = event.target.files[0];
     setFile(imageFile);
     const imageUrl = URL.createObjectURL(imageFile);
-    setPreviewUrl(imageUrl);
+    setPreview(imageUrl);
   };
 
   return (
@@ -105,27 +113,27 @@ export default function (props) {
           <StyledTableRow key={editData.id}>
             <StyledTableCell component='th' scope='row'>
               <input
-                type='text'
+                type='content'
                 value={noticeTitle}
                 onChange={handleNoticeTitle}
               />
             </StyledTableCell>
             <StyledTableCell component='th' scope='row'>
               <input
-                type='text'
+                type='content'
                 value={noticeContent}
                 onChange={handleNoticeContent}
               />
             </StyledTableCell>
             <StyledTableCell component='th' scope='row'>
-              <label htmlFor='input-file'>
-                <PreviewImg src={previewUrl} alt='preview image' />
+              <label htmlFor='input-edit-file'>
+                <PreviewImg src={preview} alt='preview image' />
               </label>
               <input
                 type='file'
-                id='input-file'
+                id='input-edit-file'
                 accept='image/*'
-                onChange={processImage}
+                onChange={changeImage}
                 style={{ display: 'none' }}
               />
             </StyledTableCell>
@@ -224,7 +232,7 @@ const StyledTableCell = withStyles(theme => ({
   body: {
     fontSize: 14,
     minWidth: 100,
-    textAlign: 'center',
+    contentAlign: 'center',
   },
 }))(TableCell);
 

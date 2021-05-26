@@ -3,14 +3,45 @@ import styled from 'styled-components';
 import Button from './../../Common/Button';
 import EditProduct from './EditProduct';
 import Loader from '../../Common/Loader';
-import ProductEditForm from './ProductEditForm';
+import UpdateProduct from './UpdateProduct';
+import Input from '../../Common/Input';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
+const useStyles = makeStyles(theme =>
+  createStyles({
+    formControl: {
+      margin: '40px',
+      minWidth: 120,
+    },
+  })
+);
+const EnrollmentButton = styled.button`
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 0;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  margin: 50px 20px;
+`;
 export default ({
   customFileBtn,
   selectChange,
-  subSelectChange,
-  addTable,
-  onSubmit,
+  searchTitle,
+  handleSearchTitle,
+  searchPrice,
+  handleSearchPrice,
+  lowPrice,
+  handleLowPrice,
+  highPrice,
+  handleHighPrice,
+  onSearch,
+  setIsEdit,
   previewImg,
   tab,
   clickTab,
@@ -22,6 +53,7 @@ export default ({
   customEditFileBtn,
   editPreview,
 }) => {
+  const classes = useStyles();
   return (
     <Admin>
       <AdminWrapper>
@@ -57,54 +89,82 @@ export default ({
         </NavDiv>
         {tab === 'enrollment' && (
           <Article>
-            <ProductEditForm
-              onSubmit={onSubmit}
+            <UpdateProduct
+              setIsEdit={setIsEdit}
               previewImg={previewImg}
               customFileBtn={customFileBtn}
+              customEditFileBtn={customEditFileBtn}
               selectChange={selectChange}
-              subSelectChange={subSelectChange}
-              //   smallClassification={smallClassification}
-              addTable={addTable}
               editPreview={editPreview}
             />
           </Article>
         )}
         {tab === 'edit' && editData === undefined && <Loader />}
         {tab === 'edit' && editData && (
-          <EditBox>
-            <EditGrid>
-              {editData.map(item => (
-                <EditProduct
-                  key={item.id}
-                  img={item.files[0].url}
-                  name={item.name}
-                  category={item.category}
-                  //   subCategory={item.subCategory}
-                  price={item.price}
-                  sizes={item.sizes}
-                  colors={item.colors}
-                  stocks={item.stocks}
-                  editClick={editClick}
-                  id={item.id}
-                  deleteClick={deleteClick}
-                />
-              ))}
-            </EditGrid>
-          </EditBox>
+          <>
+            <SearchBlock>
+              <Input
+                placeholder={'상품명 검색'}
+                id={'searchTitle'}
+                value={searchTitle}
+                onChange={handleSearchTitle}
+              />
+              <Input
+                placeholder={'최소 가격'}
+                id={'lowPrice'}
+                value={lowPrice}
+                onChange={handleLowPrice}
+              />
+              <Input
+                placeholder={'최대 가격'}
+                id={'highPrice'}
+                value={highPrice}
+                onChange={handleHighPrice}
+              />
+              <FormControl className={classes.formControl}>
+                <InputLabel id='demo-simple-select-label'>가격 정렬</InputLabel>
+                <Select
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  value={searchPrice}
+                  onChange={handleSearchPrice}
+                >
+                  <MenuItem value={'DESC'}>내림차순</MenuItem>
+                  <MenuItem value={'ASC'}>오름차순</MenuItem>
+                </Select>
+              </FormControl>
+              <EnrollmentButton onClick={onSearch}> 등록 </EnrollmentButton>
+            </SearchBlock>
+            <EditBox>
+              <EditGrid>
+                {editData.map(item => (
+                  <EditProduct
+                    key={item.p_id}
+                    img={item.files[0].url}
+                    name={item.p_name}
+                    category={item.categoryName}
+                    price={item.price}
+                    stock={item.stock}
+                    editClick={editClick}
+                    id={item.p_id}
+                    deleteClick={deleteClick}
+                  />
+                ))}
+              </EditGrid>
+            </EditBox>
+          </>
         )}
         <Modal id={'modal'}>
           <ModalContent>
             <span id={'close'}>&times;</span>
             {editData2 === undefined && <Loader />}
             {editData2 !== undefined && (
-              <ProductEditForm
-                onSubmit={onSubmit}
+              <UpdateProduct
+                setIsEdit={setIsEdit}
                 previewImg={previewEditImg}
-                customFileBtn={customEditFileBtn}
+                customFileBtn={customFileBtn}
+                customEditFileBtn={customEditFileBtn}
                 selectChange={selectChange}
-                subSelectChange={subSelectChange}
-                // smallClassification={smallClassification}
-                addTable={addTable}
                 editData2={editData2}
                 editPreview={editPreview}
               />
@@ -115,6 +175,10 @@ export default ({
     </Admin>
   );
 };
+
+const SearchBlock = styled.div`
+  margin: 20px auto;
+`;
 
 const Admin = styled.section`
   min-height: 79vh;
