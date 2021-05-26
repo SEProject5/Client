@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import client from '../../../lib/api/client';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -41,6 +42,15 @@ const styles = createStyles({
   resize: {
     fontSize: '14px',
   },
+  upload: {
+    width: '120px',
+    height: '50px',
+    backgroundColor: 'black',
+    color: 'white',
+    textAlign: 'center',
+    borderRadius: '20px',
+    margin: '20px auto',
+  },
 });
 
 const ColorButton = withStyles(theme => ({
@@ -61,14 +71,14 @@ const ButtonBlock = styled.div`
 function Notice (props) {
   const { classes } = props;
   const [noticeTitle, setNoticeTitle] = useState('');
-  const [noticeText, setNoticeText] = useState('');
+  const [noticeContent, setNoticeContent] = useState('');
   const [startDate, setStartDate] = useState(new Date('2021-11-14T21:11:54'));
   const [endDate, setEndDate] = useState(new Date('2021-11-19T21:11:54'));
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
   const handleNoticeText = e => {
-    setNoticeText(e.target.value);
+    setNoticeContent(e.target.value);
   };
   const handleNoticeTitle = e => {
     setNoticeTitle(e.target.value);
@@ -81,30 +91,37 @@ function Notice (props) {
   };
 
   const submitForm = () => {
-    fetch('/banner', {
-      method: 'POST',
+    const formData = new FormData();
+    formData.append('title', noticeTitle);
+    formData.append('content', noticeContent);
+    formData.append('startDate', startDate);
+    formData.append('endDate', endDate);
+    formData.append('img', file);
+    const config = {
       headers: {
-        'Content-Type': 'application/json',
+        'content-type': 'multipart/form-data',
       },
-      body: JSON.stringify({
-        title: noticeTitle,
-        text: noticeText,
-        startDate: startDate,
-        endDate: endDate,
-        file: file,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setNoticeTitle('');
-        setNoticeText('');
-        setFile(null);
-        setPreviewUrl(null);
-        alert('공지가 등록되었습니다');
-      })
-      .catch(error => {
-        console.log('error:', error);
-      });
+    };
+    try {
+      client
+        .post('/banner', formData, config)
+        .then(response => {
+          if (response.status !== 200) {
+            alert('공지 등록 실패');
+            return;
+          }
+          setNoticeTitle('');
+          setNoticeContent('');
+          setFile(null);
+          setPreviewUrl(null);
+          alert('공지가 등록되었습니다');
+        })
+        .catch(error => {
+          alert('공지 등록 실패');
+        });
+    } catch (e) {
+      console.error(e);
+    }
   };
   function processImage (event) {
     const imageFile = event.target.files[0];
@@ -149,7 +166,7 @@ function Notice (props) {
               }}
               InputProps={{ classes: { input: classes.resize } }}
               variant='outlined'
-              value={noticeText}
+              value={noticeContent}
               onChange={handleNoticeText}
             />
             <Typography className={classes.title} variant='h4' component='h4'>
@@ -191,10 +208,19 @@ function Notice (props) {
               </Grid>
             </MuiPickersUtilsProvider>
             <BannerBlock>
-              <Input type='file' accept='image/*' onChange={processImage} />
+              <label className={classes.upload} htmlFor='input-file'>
+                <p>이미지 업로드</p>
+              </label>
               {previewUrl && (
                 <PreviewImg src={previewUrl} alt='preview image' />
               )}
+              <input
+                type='file'
+                id='input-file'
+                accept='image/*'
+                onChange={processImage}
+                style={{ display: 'none' }}
+              />
             </BannerBlock>
             <ButtonBlock>
               <ColorButton

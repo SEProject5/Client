@@ -7,17 +7,26 @@ import "slick-carousel/slick/slick-theme.css";
 import useFetch from "../../lib/api/useFetch";
 
 const Slide = ({ }) => {
-    const {loading, data, error} = useFetch('/banner?order=0');
+    //order=2인 경우, 진행 중인 배너만 호출함
+    const {loading, data, error} = useFetch('/banner?order=2');
     return (
       <Section>
           <Slider {...settings}>
-              {NoticeData.map((data, index) => {
+              {data ?
+                (data.map((data, index) => {
                   return (
                   <SliderDiv key={data.id}>
                       <img src={data.url} alt={index} />
                   </SliderDiv>
-                  )
-            })}
+                  )}))
+                :
+                (NoticeData.map((data, index) => {
+                  return (
+                  <SliderDiv key={data.id}>
+                      <img src={data.url} alt={index} />
+                  </SliderDiv>
+                )}))
+              }
           </Slider>
       </Section>
     )

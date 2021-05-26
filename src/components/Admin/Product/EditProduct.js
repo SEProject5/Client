@@ -7,9 +7,7 @@ const EditProduct = ({
   category,
   price,
   img,
-  sizes,
-  colors,
-  stocks,
+  stock,
   editClick,
   id,
   deleteClick,
@@ -25,17 +23,9 @@ const EditProduct = ({
         </ProductBasic>
         <ProductOption>
           <H5>옵션</H5>
-          {sizes.map((item, index) => (
-            <ProductOptionDiv key={index}>
-              <div>{colors[index].color}</div>
-              <div>{item.size}</div>
-              {stocks[index].stock !== 0 ? (
-                <div>{stocks[index].stock}</div>
-              ) : (
-                <div style={{ color: 'red' }}>{stocks[index].stock}(품절)</div>
-              )}
-            </ProductOptionDiv>
-          ))}
+          <ProductOptionDiv>
+            <div>재고 : {stock}</div>
+          </ProductOptionDiv>
         </ProductOption>
       </ProductInfo>
       <ButtonDiv>

@@ -1,23 +1,10 @@
-export const UPLOAD = [
-  {
-    id: 0,
-    name: '',
-    price: 0,
-    category: '',
-    files: [],
-    sizes: [],
-    colors: [],
-    stocks: [],
-    productDetailFiles: [],
-  },
-];
-
 export const EDIT_SEE_PRODUCT = [
   {
-    id: 1,
-    name: '티셔츠1',
+    p_id: 2,
+    p_name: '티셔츠2',
     price: 10000,
-    category: 'Top',
+    categoryName: 'Top',
+    file: '',
     files: [
       {
         id: 1,
@@ -30,85 +17,126 @@ export const EDIT_SEE_PRODUCT = [
           'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
     ],
-    sizes: [
-      { id: 1, value: 'M' },
-      { id: 2, value: 'L' },
-    ],
-    colors: [
-      { id: 1, value: 10 },
-      { id: 2, value: 20 },
-    ],
-    stocks: [
+    description: [
       {
         id: 1,
-        value: 10,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
       {
         id: 2,
-        value: 20,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
     ],
+    exist: 1,
+    stock: 10,
+    createdAt: '2021-05-21T16:57:50.000Z',
+    updatedAt: '2021-05-21T16:57:50.831Z',
   },
   {
-    id: 2,
-    name: '셔츠1',
+    p_id: 3,
+    p_name: '티셔츠3',
     price: 10000,
-    category: 'Top',
+    categoryName: 'Top',
+    file: '',
     files: [
       {
         id: 1,
         url:
           'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
+      {
+        id: 2,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+      },
     ],
-    sizes: [
-      { id: 1, value: 'M' },
-      { id: 2, value: 'L' },
-    ],
-    colors: [
-      { id: 1, value: 10 },
-      { id: 2, value: 20 },
-    ],
-    stocks: [
+    description: [
       {
         id: 1,
-        value: 10,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
       {
         id: 2,
-        value: 20,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
     ],
+    exist: 1,
+    stock: 10,
+    createdAt: '2021-05-21T16:57:50.000Z',
+    updatedAt: '2021-05-21T16:57:50.831Z',
   },
   {
-    id: 3,
-    name: '티셔츠3',
+    p_id: 4,
+    p_name: '티셔츠4',
     price: 10000,
-    category: 'Top',
+    categoryName: 'Top',
+    file: '',
     files: [
       {
         id: 1,
         url:
           'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
+      {
+        id: 2,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+      },
     ],
-    sizes: [
-      { id: 1, value: 'M' },
-      { id: 2, value: 'L' },
-    ],
-    colors: [
-      { id: 1, value: 10 },
-      { id: 2, value: 20 },
-    ],
-    stocks: [
+    description: [
       {
         id: 1,
-        value: 10,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
       {
         id: 2,
-        value: 20,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
       },
     ],
+    exist: 1,
+    stock: 10,
+    createdAt: '2021-05-21T16:57:50.000Z',
+    updatedAt: '2021-05-21T16:57:50.831Z',
+  },
+  {
+    p_id: 5,
+    p_name: '티셔츠5',
+    price: 10000,
+    categoryName: 'Top',
+    file: '',
+    files: [
+      {
+        id: 1,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+      },
+      {
+        id: 2,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+      },
+    ],
+    description: [
+      {
+        id: 1,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+      },
+      {
+        id: 2,
+        url:
+          'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+      },
+    ],
+    exist: 1,
+    stock: 10,
+    createdAt: '2021-05-21T16:57:50.000Z',
+    updatedAt: '2021-05-21T16:57:50.831Z',
   },
 ];

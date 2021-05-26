@@ -9,7 +9,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { withRouter } from 'react-router-dom';
 import * as API from '../../lib/api/auth';
 
 // import SmallMenu from './SmallMenu';
@@ -18,7 +17,7 @@ function Navigator (props) {
   const { classes, menus, handleMenus, history, ...other } = props;
   const logout = () => {
     API.logout();
-    history.push('/');
+    document.location.href = '/';
   };
   return (
     <Drawer variant='permanent' {...other}>
@@ -134,4 +133,4 @@ Navigator.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(Navigator));
+export default withStyles(styles)(Navigator);

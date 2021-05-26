@@ -11,7 +11,13 @@ export const login = ({ id, password }) => {
           return;
         }
         localStorage.setItem('x-access-token', response.data.token);
-        return response.user;
+        localStorage.setItem('user', JSON.stringify(response.data));
+        if (response.data.user_type === 'admin') {
+          document.location.href('/admin');
+        } else {
+          document.location.href('/');
+        }
+        return response.data;
       })
       .catch(error => {
         alert('로그인 실패');
@@ -23,14 +29,13 @@ export const login = ({ id, password }) => {
 
 // 회원가입
 export const register = ({ username, id, email, password }) => {
-  console.log(username, id, email, password);
   client
     .post('/auth/join', { username, id, email, password })
     .then(response => {
       if (response.status === 200) {
         localStorage.setItem('x-access-token', response.data.token);
         localStorage.setItem('user', response.data);
-        window.location.href('/');
+        document.location.href('/');
       } else if (response.status === 400) {
         alert('이미 존재하는 ID입니다.');
       }
@@ -48,6 +53,7 @@ export const check = () => client.get('/api/auth/check');
 export const logout = () => {
   localStorage.removeItem('user');
   localStorage.removeItem('x-access-token');
+  document.location.href('/');
 };
 
 export const checkId = ({ id }) =>
