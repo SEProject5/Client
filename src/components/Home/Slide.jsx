@@ -12,11 +12,11 @@ const Slide = ({ }) => {
     return (
       <Section>
           <Slider {...settings}>
-              {data ?
+              {data && data[0] ?
                 (data.map((data, index) => {
                   return (
                   <SliderDiv key={data.id}>
-                      <img src={data.url} alt={index} />
+                      <img src={NoticeData[index].url || data.url} alt={index} />
                   </SliderDiv>
                   )}))
                 :

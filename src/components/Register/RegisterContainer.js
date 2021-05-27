@@ -44,7 +44,9 @@ const RegisterContainer = ({ history }) => {
       alert('아이디를 입력하세요');
       return;
     }
-    checkId({ id }).then(response => setIsOverlapId(!response));
+    // checkId({ id }).then(response => setIsOverlapId(!response));
+    alert('사용 가능한 아이디입니다.');
+    setIsOverlapId(false);
   };
 
   const checkOverlapEmail = () => {
@@ -53,7 +55,9 @@ const RegisterContainer = ({ history }) => {
       alert('이메일을 입력하세요');
       return;
     }
-    checkEmail({ email }).then(response => setIsOverlapEmail(!response));
+    // checkEmail({ email }).then(response => setIsOverlapEmail(!response));
+    alert('사용 가능한 이메일입니다.');
+    setIsOverlapEmail(false);
   };
 
   // 폼 등록 이벤트 핸들러
@@ -110,22 +114,6 @@ const RegisterContainer = ({ history }) => {
   //     dispatch(check());
   //   }
   // }, [auth, authError, dispatch]);
-
-  // user 값이 잘 설정되었는지 확인
-  useEffect(() => {
-    if (user) {
-      try {
-        localStorage.setItem('user', JSON.stringify(user));
-        if (user.user_type === 'admin') {
-          history.push('/admin'); // 관리자 화면으로 이동
-        } else {
-          history.push('/'); // 홈 화면으로 이동
-        }
-      } catch (e) {
-        console.log('localStorage is not working');
-      }
-    }
-  }, [history, user]);
 
   return (
     <AuthTemplateBlock>

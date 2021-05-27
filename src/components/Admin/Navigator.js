@@ -17,7 +17,7 @@ function Navigator (props) {
   const { classes, menus, handleMenus, history, ...other } = props;
   const logout = () => {
     API.logout();
-    document.location.href = '/';
+    document.location.replace('/');
   };
   return (
     <Drawer variant='permanent' {...other}>

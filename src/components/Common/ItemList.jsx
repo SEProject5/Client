@@ -1,24 +1,51 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import Slider from "react-slick";
 import styled from "styled-components";
+import client from '../../lib/api/client';
 import ItemData from '../../dummyData/ItemData.json';
 import ItemCard from "./ItemCard";
+import {withRouter} from 'react-router-dom';
 
-const ItemList = () => {
+const ItemList = ({ match, history}) => {
+  // const {loading, data, error} = useFetch(`/shop/category/${match.params.categoryName}`);
+  const [data, setData] = useState('');
+  // const data = '';
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await client.get(`/shop/category/${match.params.categoryName}`);
+        setData(response.data); 
+        console.log(response.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchUsers();
+  },[match.params.categoryName]);
   return (
     <>
       <Section>
         <MainTitle>
-          <H4>NEW ITEM</H4>
+          <H4>{match.params.categoryName} ITEM</H4>
         </MainTitle>
         <CustomSlider {...itemSettings}>
-          {ItemData.map(item => (
+          {data && data.map(item => (
             <ItemCard
-              key={item.id}
-              imgSrc={item.url}
-              title={item.name}
+              key={item.p_id}
+              imgSrc={item.file}
+              title={item.p_name}
               price={item.price}
-              id={item.id}
+              id={item.p_id}
+            />
+          ))}
+          {!data && ItemData.map(item => (
+            <ItemCard
+              key={item.p_id}
+              imgSrc={item.file}
+              title={item.p_name}
+              price={item.price}
+              id={item.p_id}
             />
           ))}
         </CustomSlider>
@@ -112,4 +139,4 @@ const CustomSlider = styled(Slider)`
 
 const Section = styled.section``;
 
-export default ItemList;
+export default withRouter(ItemList);

@@ -23,12 +23,12 @@ const Category = styled(Link)`
 `;
 
 export default function CategoryMenu() {
-  const data = ['All','Outer','Top','Bottom']
+  const data = ['all','outer','top','bottom']
 
   const showCategory = () =>{
     data.map((item)=>{
       return (
-        <Category to={`/shop/${item}`} >
+        <Category to={`/shop/category/${item}`} >
           {item}
         </Category>
     )});
@@ -38,7 +38,7 @@ export default function CategoryMenu() {
     <MenuBox>
       {data.map((item,index)=>{
         return (
-          <Category key={index} to={`/shop/${item}`} >
+          <Category key={index} to={`/shop/category/${item}`} >
             {item}
           </Category>
       )})}

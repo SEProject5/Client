@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -22,7 +22,8 @@ function loadUser () {
     const user = localStorage.getItem('user');
     if (!user) return;
 
-    store.dispatch(tempSetUser(user));
+    const parsedUser = JSON.parse(user);
+    store.dispatch(tempSetUser(parsedUser));
   } catch (e) {
     console.log('localStorage is not working');
   }
@@ -34,7 +35,7 @@ loadUser();
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <Route path='/' component={App} />
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

@@ -1,9 +1,9 @@
 import client from './client';
 import { useState, useEffect } from 'react';
 
-const useFetch = url => {
+const useTestFetch = url => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [data2, setData] = useState(null);
   const [error, setError] = useState('initial error');
 
   useEffect(() => {
@@ -11,6 +11,7 @@ const useFetch = url => {
       try {
         const response = await client.get(url);
         setData(response.data); // 데이터는 response.data 안에 들어있습니다.
+        console.log(response.data);
       } catch (e) {
         setError(e);
         console.log('fetch 실패');
@@ -21,7 +22,7 @@ const useFetch = url => {
     fetchUsers();
   }, []);
 
-  return { loading, data, error };
+  return { loading, data2, error };
 };
 
-export default useFetch;
+export default useTestFetch;
