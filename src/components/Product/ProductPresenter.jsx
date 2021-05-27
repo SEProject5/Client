@@ -1,20 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Loader from "../Common/Loader";
+import {SEEITEM} from '../../dummyData/ProductData';
 import Button from '../Common/Button';
 import { UpArrowIcon, CartIcon, CloseIcon } from '../Common/Icons';
 import { Link } from "react-router-dom";
 import { addComma } from "../../util/function/SharedFunction";
-
+import errorImg from '../../dummyData/img/errorImg.jpg';
 
 export default function ProductPresenter({
     data,
-    loading,  
-    uniqColor,
-    colorSelectOnChange,
-    color,
     option,
-    sizeSelectOnChange,
     selected,
     count,
     decrement,
@@ -27,75 +23,43 @@ export default function ProductPresenter({
     myId, 
     addPayment
 }){
-    const item = data.seeproduct;
+    const handleImgError = (e) => {
+    	e.target.src = errorImg;
+    }
     return (
         <Product>
                 <ProductWrapper>
-                    {
-                        <Section key={item.id}>
+                    {data &&
+                        <Section key={data.p_id}>
                             <TitleDiv>
-                                <H2>{item.name}</H2>
+                                <H2>{data.p_name}</H2>
                             </TitleDiv>
                             <ProductDiv>
                                 <ProductImgDiv>
-                                    {item.files.map(file => (
+                                    {data.file &&
                                         <ProductImg 
-                                            key={file.id}
-                                            src={file.url}
+                                            src={data.file}
+                                            onError={handleImgError}
                                         />
-                                    ))}
-                                    <SizeDiv>
-                                        <SizeTitleDiv>
-                                            <H3>Size Info</H3>
-                                        </SizeTitleDiv>
-                                        {item.productSizeFile.map(sizeFile => (
-                                            <SizeImg
-                                                key={sizeFile.id}
-                                                src={sizeFile.productSizeFile}
-                                            />
-                                        ))}
-                                    </SizeDiv>
+                                    }
+      
                                 </ProductImgDiv>
-                                <ProductInfoDiv key={item.id}>
+                                <ProductInfoDiv key={data.p_id}>
                                     <ProductNameDiv>
                                         <H3>Name</H3>
-                                        <Span>{item.name}</Span>
+                                        <Span>{data.p_name}</Span>
                                     </ProductNameDiv>
                                     <ProductPriceDiv>
                                         <H3>Price</H3>
-                                        <span>￦{addComma(item.price)}</span>
+                                        <span>￦{addComma(data.price)}</span>
                                     </ProductPriceDiv>
                                     < SelectOptionDiv>
                                         <H3>Select Option</H3>
                                         <OptionBox>
                                             <ColorDiv>
-                                                <H3>Color</H3>
-                                                <Select onChange={(e) => colorSelectOnChange(e)}>
-                                                    <option value=""> Color </option>
-                                                    {uniqColor.map(color => (
-                                                        <option key={color.colorId} value={color.colors}>{color.colors}</option>
-                                                    ))}
-                                                </Select>
+                                                <H3>재고</H3>
+                                                <H2>{data.stock}</H2>
                                             </ColorDiv>
-                                            <SizeOptionDiv>
-                                                <H3>Size</H3>
-                                                <Select
-                                                    id={"selectSize"} 
-                                                    disabled={color === "" ? true : false}
-                                                    defaultValue={""}
-                                                    onChange={(e) => sizeSelectOnChange(e)}
-                                                >
-                                                    <option value=""> Size </option>
-                                                    {option.map(item => (
-                                                        <option
-                                                            key={item.sizeId} 
-                                                            value={item.colors + "-" + item.colorId + "-" + item.sizes + "-" + item.sizeId + "-" + item.stocks + "-" + item.stockId}
-                                                        >
-                                                        {item.sizes} - 남은재고:{item.stocks}    
-                                                        </option>
-                                                    ))}
-                                                </Select>
-                                            </SizeOptionDiv>
                                         </OptionBox>
                                     </SelectOptionDiv>
                                     {selected.length > 0 && 
@@ -104,20 +68,19 @@ export default function ProductPresenter({
                                                 <SelectedDiv key={index}>
                                                     <SelectedItem>
                                                         <div>
-                                                            {item.name}
+                                                            {data.p_name}
                                                         </div>
-                                                        ({option.color}/{option.size})
                                                     </SelectedItem>
                                                     <SelectedCount>
-                                                        <SelectedCountTextDiv>{count[index]}</SelectedCountTextDiv>
+                                                        <SelectedCountTextDiv>{count}</SelectedCountTextDiv>
                                                         <SelectedCountBtnDiv>
-                                                            <Button text="▲" onClick={() => increment(index,item)} />
-                                                            <Button text="▼" onClick={() => decrement(index,item)}/>
+                                                            <Button text="▲" onClick={() => increment(index,data)} />
+                                                            <Button text="▼" onClick={() => decrement(index,data)}/>
                                                         </SelectedCountBtnDiv>
                                                     </SelectedCount>
                                                     <SelectedPrice>
-                                                        {addComma(item.price*count[index])}
-                                                        <DeleteButton onClick={() => deleteSelect(index, selected) }><span role="img" aria-label="">❌</span></DeleteButton>
+                                                        {addComma(data.price*count)}
+                                                        {/* <DeleteButton onClick={() => deleteSelect(index, selected) }><span role="img" aria-label="">❌</span></DeleteButton> */}
                                                     </SelectedPrice>
                                                 </SelectedDiv>
                                             )
@@ -129,11 +92,12 @@ export default function ProductPresenter({
                                     </TotalDiv>
                                     <ButtonDiv>
                                         <Form>
-                                            <Button text="Cart" onClick={() => addCart(selected, item, count)}/>
-                                            <Button id={"OrderBtn"} text={"Order Now"} onClick={() => addPayment(selected, item, count)} />
+                                            <Button text="Cart" onClick={() => addCart(selected, data, count)}/>
+                                            <Button p_id={"OrderBtn"} text={"Order Now"} onClick={() => addPayment(selected, data, count)} />
                                         </Form>
                                     </ButtonDiv>
                                 </ProductInfoDiv>
+
                                 {success && (
                                     <ConfirmDiv>
                                         <ConfirmCloseDiv>
@@ -154,7 +118,20 @@ export default function ProductPresenter({
                                     </ConfirmDiv>
                                 )}
                             </ProductDiv>
-                            <ProductDetailDiv />
+                            <ProductDetailDiv>
+                                <SizeDiv>
+                                    <SizeTitleDiv>
+                                        <H3>상세 정보</H3>
+                                    </SizeTitleDiv>
+                                    {data.file &&
+                                        <SizeImg
+                                            src={data.file}
+                                            onError={handleImgError}
+                                        />
+                                    }
+                                </SizeDiv>
+                            </ProductDetailDiv>
+
                         </Section>
                     }
                 </ProductWrapper>
@@ -310,7 +287,7 @@ const TotalDiv = styled(ProductNameDiv)`
 const ButtonDiv = styled.div`
     #OrderBtn {
         background-color: ${props => props.theme.confirmColor};
-        color: white;
+        color: black;
     }
 `;
 
@@ -469,7 +446,7 @@ const ConfirmButtonDiv = styled.div`
         margin: 0 10px;
         &:first-child {
             background-color: ${props => props.theme.confirmColor} !important;
-            color: #fff;
+            color: black;
 
 
         }

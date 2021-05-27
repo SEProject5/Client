@@ -93,10 +93,11 @@ function Notice (props) {
   const submitForm = () => {
     const formData = new FormData();
     formData.append('title', noticeTitle);
-    formData.append('content', noticeContent);
+    formData.append('description', noticeContent);
+    formData.append('banner_type', 'notice');
     formData.append('startDate', startDate);
     formData.append('endDate', endDate);
-    formData.append('img', file);
+    formData.append('image', previewUrl);
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
@@ -122,6 +123,7 @@ function Notice (props) {
     } catch (e) {
       console.error(e);
     }
+    console.log('공지 등록 실행');
   };
   function processImage (event) {
     const imageFile = event.target.files[0];
@@ -216,6 +218,7 @@ function Notice (props) {
               )}
               <input
                 type='file'
+                name='image'
                 id='input-file'
                 accept='image/*'
                 onChange={processImage}

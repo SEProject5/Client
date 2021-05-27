@@ -1,71 +1,16 @@
-export const SEEITEM = [
-  {
-    id: 1,
-    seeproduct: {
-      id: 1,
-      name: '누디진',
-      price: 200000,
-      Category: 'Bottom',
-      files: [
-        {
-          id: 1,
-          url:
-            'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EB%88%84%EB%94%94%EC%A7%84.gif?alt=media&token=b63ccd0a-23a1-4dad-9f3c-1206a21eb847',
-          file: {},
-        },
-      ],
-      colors: [
-        {
-          id: 1,
-          color: 'BLUE',
-        },
-        {
-          id: 2,
-          color: 'WHITE',
-        },
-      ],
-      sizes: [
-        {
-          id: 1,
-          size: 'M',
-        },
-        {
-          id: 2,
-          size: 'L',
-        },
-      ],
-      stocks: [
-        {
-          id: 1,
-          stock: '99',
-        },
-        {
-          id: 2,
-          stock: '100',
-        },
-      ],
-      productDetailFile: [
-        {
-          id: 1,
-          productDetailFile:
-            'http://sakensh.cafe24.com/web/upload/NNEditor/20210427/0_shop1_105112.jpg',
-        },
-        {
-          id: 2,
-          productDetailFile:
-            'http://sakensh.cafe24.com/web/upload/NNEditor/20210427/0_shop1_105112.jpg',
-        },
-      ],
-      productSizeFile: [
-        {
-          id: 1,
-          productSizeFile:
-            'https://mblogthumb-phinf.pstatic.net/MjAxNzExMDdfMTQ3/MDAxNTEwMDQxODYyMjY1.kAvpXchJkjzWlDqtAQgYS7MLR9PFVIIe4vcBfUR6jOQg.FHU59tAPCbw6YolyoEnnpALAKzu9-01K41e8-Nj3vlQg.JPEG.siyeonzzz/171106061107.jpg?type=w800',
-        },
-      ],
-    },
-  },
-];
+export const SEEITEM = {
+  p_id: 2,
+  p_name: 'produc1111',
+  description: 'asdsasdv',
+  categoryName: 'outer',
+  price: 30000,
+  stock: 10,
+  file: 'uploads/1622016655460_Unknown.jpg',
+  exist: 1,
+  createdAt: '2021-05-26T08:10:55.000Z',
+  updatedAt: '2021-05-27T18:03:25.000Z',
+  deletedAt: null,
+};
 
 export const ADD_CART = () => [
   {

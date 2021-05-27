@@ -16,7 +16,7 @@ const LoginForm = ({
       {user ? (
         <>
           <span>
-            {user.id}
+            {user.name}
             {'님 반갑습니다'}
           </span>
           <StyledButton

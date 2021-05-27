@@ -91,6 +91,7 @@ export default ({
           <Article>
             <UpdateProduct
               setIsEdit={setIsEdit}
+              previewEditImg={previewEditImg}
               previewImg={previewImg}
               customFileBtn={customFileBtn}
               customEditFileBtn={customEditFileBtn}
@@ -133,14 +134,14 @@ export default ({
                   <MenuItem value={'ASC'}>오름차순</MenuItem>
                 </Select>
               </FormControl>
-              <EnrollmentButton onClick={onSearch}> 등록 </EnrollmentButton>
+              <EnrollmentButton onClick={onSearch}> 검색 </EnrollmentButton>
             </SearchBlock>
             <EditBox>
               <EditGrid>
                 {editData.map(item => (
                   <EditProduct
                     key={item.p_id}
-                    img={item.files[0].url}
+                    img={item.file}
                     name={item.p_name}
                     category={item.categoryName}
                     price={item.price}
@@ -161,7 +162,8 @@ export default ({
             {editData2 !== undefined && (
               <UpdateProduct
                 setIsEdit={setIsEdit}
-                previewImg={previewEditImg}
+                previewEditImg={previewEditImg}
+                previewImg={previewImg}
                 customFileBtn={customFileBtn}
                 customEditFileBtn={customEditFileBtn}
                 selectChange={selectChange}

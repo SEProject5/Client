@@ -1,16 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import ItemList from '../components/Home/ItemList';
+import ItemList from '../components/Shop/ItemList';
 import Category from '../components/Common/CategoryMenu';
 
 
-const Shop = ({}) => {
+const Shop = () => {
     return (
       <Main>
         <Category />
         <MainWrapper>
           <H4>Shop</H4>
-          <ItemList/>
+          <ItemList />
         </MainWrapper>
       </Main>
     )

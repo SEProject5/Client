@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "user_id": "test@naver.com",
+    "address_name": "우리집",
+    "receiver_phone": "010-3066-2820",
+    "zip_code": "1",
+    "address": "address1",
+    "address_detail": "address_detail1",
+    "address_type": 0
+  }
+]

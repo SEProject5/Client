@@ -1,23 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import Slide from "../components/Home/Slide";
 import Search from '../components/Home/Search';
 import Category from '../components/Common/CategoryMenu';
-import ItemList from '../components/Home/ItemList';
+import NewItemList from '../components/Home/NewItemList';
+import SearchItemList from '../components/Home/SearchItemList';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 
 const Home = ({ }) => {
+  const [data, setData] = useState(null);
+
     return (
       <Main>
         <Category/>
         <MainWrapper>
             <Slide />
             <Section>
-              <Search />
+              <Search setData={setData}/>
             </Section>
-            <ItemList />
+            {data ? <SearchItemList searchItem={data}/>
+            :<NewItemList />
+            }
         </MainWrapper>
       </Main>
     )

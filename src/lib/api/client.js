@@ -6,8 +6,8 @@ const client = axios.create();
 
 // client.defaults.baseURL = 'https://localhost:3000';
 client.defaults.baseURL =
-  'http://ec2-18-116-105-214.us-east-2.compute.amazonaws.com:3000';
-client.defaults.withCredentials = true;
+  'http://ec2-13-125-128-80.ap-northeast-2.compute.amazonaws.com:3001';
+client.defaults.withCredentials = false;
 
 axios.interceptors.request.use(
   request => {

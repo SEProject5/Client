@@ -19,6 +19,7 @@ const Input = ({
   type = 'text',
   id,
   defaultValue,
+  maxLength,
 }) => (
   <Container
     placeholder={placeholder}
@@ -28,6 +29,7 @@ const Input = ({
     type={type}
     id={id}
     defaultValue={defaultValue}
+    maxLength={maxLength}
   />
 );
 

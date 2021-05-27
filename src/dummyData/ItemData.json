@@ -1,26 +1,67 @@
 [
-    {
-    "id": "1",
-    "url": "https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EB%88%84%EB%94%94%EC%A7%842.jpg?alt=media&token=bd48d4cc-6dad-43fc-b210-929e06903d38",
-    "name": "[NUDIEJEANS] 1111",
-    "price": "219000"
+  {
+    "p_id": 1,
+    "p_name": "s-t-shirt1",
+    "descriprion": null,
+    "categoryName": "outer",
+    "price": 10000,
+    "stock": 10,
+    "file": "https://m.adererror.com/2021ss/TOP/BKASSSW04BK/1.jpg",
+    "exist": null,
+    "createdAt": "2021-05-21T02:58:42.000Z",
+    "updatedAt": "2021-05-21T02:59:01.000Z",
+    "deletedAt": null
   },
   {
-  "id": "2",
-  "url": "https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EB%88%84%EB%94%94%EC%A7%842.jpg?alt=media&token=bd48d4cc-6dad-43fc-b210-929e06903d38",
-  "name": "[NUDIEJEANS] 22222",
-  "price": "219000"
+    "p_id": 2,
+    "p_name": "s-t-shirt1",
+    "descriprion": null,
+    "categoryName": "outer",
+    "price": 10000,
+    "stock": 10,
+    "file": "https://m.adererror.com/2021ss/TOP/BKASSSW04BK/1.jpg",
+    "exist": null,
+    "createdAt": "2021-05-21T02:58:42.000Z",
+    "updatedAt": "2021-05-21T02:59:01.000Z",
+    "deletedAt": null
   },
   {
-    "id": "3",
-    "url": "https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EB%88%84%EB%94%94%EC%A7%842.jpg?alt=media&token=bd48d4cc-6dad-43fc-b210-929e06903d38",
-    "name": "[NUDIEJEANS] 33333",
-    "price": "219000"
+    "p_id": 3,
+    "p_name": "s-t-shirt1",
+    "descriprion": null,
+    "categoryName": "outer",
+    "price": 10000,
+    "stock": 10,
+    "file": "https://m.adererror.com/2021ss/TOP/BKASSSW04BK/1.jpg",
+    "exist": null,
+    "createdAt": "2021-05-21T02:58:42.000Z",
+    "updatedAt": "2021-05-21T02:59:01.000Z",
+    "deletedAt": null
   },
   {
-  "id": "4",
-  "url": "https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EB%88%84%EB%94%94%EC%A7%842.jpg?alt=media&token=bd48d4cc-6dad-43fc-b210-929e06903d38",
-  "name": "[NUDIEJEANS] 444444",
-  "price": "219000"
+    "p_id": 4,
+    "p_name": "s-t-shirt1",
+    "descriprion": null,
+    "categoryName": "outer",
+    "price": 10000,
+    "stock": 10,
+    "file": "https://m.adererror.com/2021ss/TOP/BKASSSW04BK/1.jpg",
+    "exist": null,
+    "createdAt": "2021-05-21T02:58:42.000Z",
+    "updatedAt": "2021-05-21T02:59:01.000Z",
+    "deletedAt": null
+  },
+  {
+    "p_id": 5,
+    "p_name": "s-t-shirt1",
+    "descriprion": null,
+    "categoryName": "outer",
+    "price": 10000,
+    "stock": 10,
+    "file": "https://m.adererror.com/2021ss/TOP/BKASSSW04BK/1.jpg",
+    "exist": null,
+    "createdAt": "2021-05-21T02:58:42.000Z",
+    "updatedAt": "2021-05-21T02:59:01.000Z",
+    "deletedAt": null
   }
 ]

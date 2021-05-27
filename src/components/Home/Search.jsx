@@ -1,32 +1,68 @@
 import React, {useState} from 'react';
+import client from '../../lib/api/client';
 import styled from 'styled-components';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
-import Fuse from 'fuse.js'
-import RangeBar from './RangeBar';
+import Input from '../Common/Input';
 
-export default function Search() {
+export default function Search({setData}) {
   const classes = useStyles();
-  const [category, setCategory] = useState('');
-  const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState({min:0,max:100000});
-  
-  const handleChangeCategory = (event) => {
-    setCategory(event.target.value);
-  };
-  const handleChangeProduct = (event) => {
-    setProductName(event.target.value);
+
+  const [searchTitle, setSearchTitle] = useState('');
+  const [searchPrice, setSearchPrice] = useState('');
+  const [lowPrice, setLowPrice] = useState(0);
+  const [highPrice, setHighPrice] = useState(1000000);
+
+  const onSearch = () => {
+    if (!lowPrice) {
+      setLowPrice(0);
+    }
+    if (!highPrice) {
+      setHighPrice(1000000);
+    }
+    let url = ``;
+    if (!searchPrice && searchTitle) {
+      url = `/product/sort?keyword=${searchTitle}`;
+    } else if (searchPrice && !searchTitle) {
+      url = `/product/sort?orderPrice=${searchPrice}`;
+    } else if (searchPrice && searchTitle) {
+      url = `/product/sort?orderPrice=${searchPrice}&keyword=${searchTitle}`;
+    } else {
+      url = `/product/sort`;
+    }
+    const fetchProducts = async () => {
+      try {
+        const response = await client.get(url, {
+          lowPrice: lowPrice,
+          highPrice: highPrice,
+        });
+        setData(response.data);
+      } catch (e) {
+        console.log('fetch 실패');
+      }
+    };
+    fetchProducts();
   };
 
-  const searchProduct = () => {
-    const data = {category:category, name:productName, price:price};
-    console.log(data);
-  }
+  const handleSearchTitle = e => {
+    setSearchTitle(e.target.value);
+  };
+
+  const handleSearchPrice = e => {
+    setSearchPrice(e.target.value);
+  };
+
+  const handleLowPrice = e => {
+    setLowPrice(e.target.value);
+  };
+  const handleHighPrice = e => {
+    setHighPrice(e.target.value);
+  };
 
   return (
     <>
@@ -34,35 +70,38 @@ export default function Search() {
         <h3>[상품 상세 검색]</h3>
       </TitleBlock>
       <SearchBlock>
-        <FormControl className={classes.margin}>
-          <InputLabel id="label">카테고리</InputLabel>
-          <Select
-            labelId="category"
-            id="category"
-            value={category}
-            onChange={handleChangeCategory}
-            input={<BootstrapInput />}
-          >
-            <MenuItem value={'outer'}>Outer</MenuItem>
-            <MenuItem value={'top'}>Top</MenuItem>
-            <MenuItem value={'bottom'}>Bottom</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControl className={classes.margin}>
-          <InputLabel htmlFor="productName">상품명</InputLabel>
-          <BootstrapInput id="product" value={productName} onChange={handleChangeProduct}/>
-        </FormControl>
-        <RangeBar price={price} setPrice={setPrice} />
-      </SearchBlock>
-      <ButtonBlock>
-        <ColorButton
-          color="primary"
-          className={classes.margin}
-          onClick={searchProduct}
-        >
-          상품 검색
-        </ColorButton>
-      </ButtonBlock>
+              <Input
+                placeholder={'상품명 검색'}
+                id={'searchTitle'}
+                value={searchTitle}
+                onChange={handleSearchTitle}
+              />
+              <Input
+                placeholder={'최소 가격'}
+                id={'lowPrice'}
+                value={lowPrice}
+                onChange={handleLowPrice}
+              />
+              <Input
+                placeholder={'최대 가격'}
+                id={'highPrice'}
+                value={highPrice}
+                onChange={handleHighPrice}
+              />
+              <FormControl className={classes.formControl}>
+                <InputLabel id='demo-simple-select-label'>가격 정렬</InputLabel>
+                <Select
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  value={searchPrice}
+                  onChange={handleSearchPrice}
+                >
+                  <MenuItem value={'DESC'}>내림차순</MenuItem>
+                  <MenuItem value={'ASC'}>오름차순</MenuItem>
+                </Select>
+              </FormControl>
+              <Button onClick={onSearch}> 검색 </Button>
+            </SearchBlock>
     </>
   );
 }
@@ -77,49 +116,13 @@ const SearchBlock = styled.div`
   align-items: baseline;
 `;
 
-const ButtonBlock = styled.div`
-  width:100%;
-  margin: 20px auto;
-  text-align:center;
-`;
 
-const ColorButton = withStyles((theme) => ({
-  root: {
-    color: theme.palette.getContrastText('#030303'),
-    backgroundColor: '#030303',
-    '&:hover': {
-      backgroundColor: '#4d4d4d',
-    },
-  },
-}))(Button);
 
-const BootstrapInput = withStyles((theme) => ({
-  root: {
-    'label + &': {
-      marginTop: theme.spacing(3),
+const useStyles = makeStyles((theme) => (
+  createStyles({
+    formControl: {
+      margin: '40px',
+      minWidth: 120,
     },
-  },
-  input: {
-    borderRadius: 4,
-    position: 'relative',
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 26px 10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: ['NotoSansLight','sans-serif'].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}))(InputBase);
-
-const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-    minWidth: 100,
-  },
-}));
+  })
+));

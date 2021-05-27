@@ -38,7 +38,6 @@ export default function NoticeList () {
       try {
         const response = await client.get(`/banner?order=${state}`);
         setData(response.data); // 데이터는 response.data 안에 들어있습니다.
-        console.log(response.data);
       } catch (e) {
         // setError(e);
         console.log('fetch 실패');
@@ -68,8 +67,9 @@ export default function NoticeList () {
   const deleteFetch = url => {
     const fetchUsers = async () => {
       try {
-        const response = await client.patch(url);
-        console.log(response.data);
+        client.delete(url).then(response => {
+          setState(0);
+        });
       } catch (e) {
         console.log('delete 실패');
       }
@@ -78,7 +78,7 @@ export default function NoticeList () {
   };
 
   const onDelete = id => {
-    deleteFetch(`/banner/:${id}`);
+    deleteFetch(`/banner/${id}`);
   };
 
   function createData (id, title, content, startDate, endDate, url) {
