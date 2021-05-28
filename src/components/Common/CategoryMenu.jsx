@@ -25,15 +25,6 @@ const Category = styled(Link)`
 export default function CategoryMenu() {
   const data = ['all','outer','top','bottom']
 
-  const showCategory = () =>{
-    data.map((item)=>{
-      return (
-        <Category to={`/shop/category/${item}`} >
-          {item}
-        </Category>
-    )});
-  }
-
   return (
     <MenuBox>
       {data.map((item,index)=>{

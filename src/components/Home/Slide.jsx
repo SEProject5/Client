@@ -20,7 +20,7 @@ const Slide = ({ }) => {
                 (data.map((data, index) => {
                   return (
                   <SliderDiv key={data.id}>
-                      <img src={window.location.href+":3001/"+data.file} alt={index} onError={handleImgError}/>
+                      <img src={'http://ec2-13-125-128-80.ap-northeast-2.compute.amazonaws.com:3001/' +data.file} alt={index} onError={handleImgError}/>
                   </SliderDiv>
                   )}))
                 :

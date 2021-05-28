@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Admin from "./pages/Admin";
 import MyPage from "./pages/MyPage";
+import Payment from "./pages/Payment";
 import { useSelector } from "react-redux";
 import {RestrictRoute} from './components/Common/RestrictRoute';
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/shop/category/:categoryName" component={Shop}/>
           <Route path="/product/:p_id" component={Product}/>
           <Route path="/myPage" component={MyPage}/>
+          <Route path="/Payment" component={Payment}/>
           <Route path="/signup" component={SignUp}/>
           <Route path="/admin" component={Admin}/>
           {/* {users  && <RestrictRoute exact path="/admin" component={Admin} isAllow={users.user_type === 'admin'} Fallback={GoToMainPage} /> } */}

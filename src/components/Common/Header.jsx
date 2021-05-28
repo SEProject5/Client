@@ -17,11 +17,12 @@ const Header = () => {
       </Button>
       <LoginContainer/>
       <MenuList>
-        <MenuItem to={'/'}> HOME </MenuItem>
-        <MenuItem to={'/signup'}> 회원가입 </MenuItem>
+      <MenuItem to={'/signup'}> 회원가입 </MenuItem>
+        <MenuItem to={'/shop/category/all'}> Shop </MenuItem>
+        <MenuItem to={'/myPage'}> 마이 페이지 </MenuItem>
         {user && user.user_type === 'admin' ?
           (<MenuItem to={'/admin'}> 관리자 페이지 </MenuItem>)
-          : (<MenuItem to={'/myPage'}> 마이 페이지 </MenuItem>)
+          : (null)
         }
       </MenuList>
     </HeaderBlock>

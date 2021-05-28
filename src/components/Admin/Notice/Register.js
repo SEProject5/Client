@@ -69,7 +69,7 @@ const ButtonBlock = styled.div`
 `;
 
 function Notice (props) {
-  const { classes } = props;
+  const { classes, setState } = props;
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
   const [startDate, setStartDate] = useState(new Date('2021-11-14T21:11:54'));
@@ -103,7 +103,7 @@ function Notice (props) {
         'content-type': 'multipart/form-data',
       },
     };
-    console.log(file);
+    console.log(startDate);
     try {
       client
         .post('/banner', formData, config)
@@ -117,6 +117,7 @@ function Notice (props) {
           setFile(null);
           setPreviewUrl(null);
           alert('공지가 등록되었습니다');
+          setState(new Number(0));
         })
         .catch(error => {
           alert('공지 등록 실패');

@@ -13,6 +13,7 @@ export default () => {
 
   // state
   // 상품 등록을 위한 state
+  const [state, setState] = useState(0);
   const [name, setName] = useState(''); // 상품 이름
   const [price, setPrice] = useState(0); // 상품 가격
   const [category, setCategory] = useState(''); // 대분류 선택값
@@ -97,7 +98,7 @@ export default () => {
       p_name: name,
       price: price,
       categoryName: category,
-      file: window.location.href + ':3001/' + file,
+      file: file,
       stock: stock,
       productDetailFiles: file,
     };
@@ -302,6 +303,7 @@ export default () => {
       customFileBtn={customFileBtn}
       searchTitle={searchTitle}
       handleSearchTitle={handleSearchTitle}
+      seeProductFunction={seeProductFunction}
       lowPrice={lowPrice}
       handleLowPrice={handleLowPrice}
       handleHighPrice={handleHighPrice}

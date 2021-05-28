@@ -58,10 +58,10 @@ export default function Search({setData}) {
   };
 
   const handleLowPrice = e => {
-    setLowPrice(e.target.value);
+    setLowPrice(Number(e.target.value));
   };
   const handleHighPrice = e => {
-    setHighPrice(e.target.value);
+    setHighPrice(Number(e.target.value));
   };
 
   return (
@@ -79,12 +79,14 @@ export default function Search({setData}) {
               <Input
                 placeholder={'최소 가격'}
                 id={'lowPrice'}
+                type={'number'}
                 value={lowPrice}
                 onChange={handleLowPrice}
               />
               <Input
                 placeholder={'최대 가격'}
                 id={'highPrice'}
+                type={'number'}
                 value={highPrice}
                 onChange={handleHighPrice}
               />

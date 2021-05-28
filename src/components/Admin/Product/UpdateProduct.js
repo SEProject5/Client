@@ -14,8 +14,10 @@ const UpdateProduct = ({
   customEditFileBtn,
   editData2,
   setIsEdit,
+  seeProductFunction,
   // editPreview,
 }) => {
+  const [state, setState] = useState(0);
   const [productId, setProductId] = useState(1);
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
@@ -66,10 +68,14 @@ const UpdateProduct = ({
       setPrice(editData2.price);
       setCategoryName(editData2.categoryName);
       setFile(editData2.file);
+      setPreviewUrl(
+        'http://ec2-13-125-128-80.ap-northeast-2.compute.amazonaws.com:3001/' +
+          editData2.file
+      );
       setStock(editData2.stock);
       setDescription(editData2.description);
     }
-  }, [editData2]);
+  }, [editData2, state]);
 
   const checkPrice = /^[0-9]$/g;
 
@@ -104,8 +110,6 @@ const UpdateProduct = ({
       setCategoryName(String(categoryName));
     }
     const formData = new FormData();
-    console.log(file);
-    console.log(previewUrl);
     formData.append('p_name', name);
     formData.append('categoryName', categoryName);
     formData.append('price', price);
@@ -130,6 +134,14 @@ const UpdateProduct = ({
           }
           alert('상품이 등록되었습니다');
           setIsEdit(true);
+          setState(new Number(0));
+          // setName('');
+          // setPrice(0);
+          // setStock(0);
+          // setFile(null);
+          // setPreviewUrl(null);
+          // setDescription('');
+          // setCategoryName('');
         })
         .catch(error => {
           setIsEdit(true);
@@ -138,6 +150,7 @@ const UpdateProduct = ({
     } catch (e) {
       console.error(e);
     }
+    seeProductFunction();
   };
 
   const onUpdate = e => {
@@ -203,6 +216,7 @@ const UpdateProduct = ({
     } catch (e) {
       console.error(e);
     }
+    seeProductFunction();
   };
 
   return (
@@ -261,8 +275,9 @@ const UpdateProduct = ({
                   id={'mainCategorySelect'}
                 >
                   <option value='0'>대분류</option>
-                  <option value='Top'>Top</option>
-                  <option value='Bottom'>Bottom</option>
+                  <option value='outer'>outer</option>
+                  <option value='top'>top</option>
+                  <option value='bottom'>bottom</option>
                 </Select>
               </SortDiv>
             </BasicDiv>
@@ -346,8 +361,9 @@ const UpdateProduct = ({
                   id={'mainCategorySelect'}
                 >
                   <option value='0'>대분류</option>
-                  <option value='Top'>Top</option>
-                  <option value='Bottom'>Bottom</option>
+                  <option value='outer'>outer</option>
+                  <option value='top'>top</option>
+                  <option value='bottom'>bottom</option>
                 </Select>
               </SortDiv>
             </BasicDiv>

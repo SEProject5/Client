@@ -9,9 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import NoticeData from '../../../dummyData/NoticeData.json';
+// import NoticeData from '../../../dummyData/NoticeData.json';
 import styled from 'styled-components';
 import DateFnsUtils from '@date-io/date-fns';
+import Image from '../../Common/Image';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -19,17 +20,17 @@ import {
 
 export default function (props) {
   const classes = useStyles();
-  const { handleModal, currentId } = props;
+  const { data, handleModal, currentId, setState } = props;
 
-  const data = NoticeData;
+  // const { loading, data, error } = useFetch(`/banner?order=0`);
   const editData = data.filter(obj => obj.id === currentId)[0];
 
   const [noticeTitle, setNoticeTitle] = useState(editData.title);
-  const [noticeContent, setNoticeContent] = useState(editData.content);
+  const [noticeContent, setNoticeContent] = useState(editData.description);
   const [startDate, setStartDate] = useState(editData.startDate);
   const [endDate, setEndDate] = useState(editData.endDate);
-  const [file, setFile] = useState(editData.url);
-  const [preview, setPreview] = useState(editData.url);
+  const [file, setFile] = useState(editData.file);
+  const [preview, setPreview] = useState(editData.file);
 
   const handleNoticeContent = e => {
     setNoticeContent(e.target.value);
@@ -48,22 +49,32 @@ export default function (props) {
     handleModal(false);
   };
 
-  const onEditSubmit = () => {
+  const onEditSubmit = e => {
     const formData = new FormData();
     formData.append('id', currentId);
     formData.append('title', noticeTitle);
-    formData.append('content', noticeContent);
+    formData.append('description', noticeContent);
+    formData.append('banner_type', 'notice');
     formData.append('startDate', startDate);
     formData.append('endDate', endDate);
     formData.append('img', file);
+    const result = {
+      currentId,
+      noticeTitle,
+      noticeContent,
+      startDate,
+      endDate,
+      file,
+    };
+    console.log(result);
     const config = {
       headers: {
-        'content-type': 'multipart/form-data',
+        'description-type': 'multipart/form-data',
       },
     };
     try {
       client
-        .post('/banner', formData, config)
+        .patch(`/banner/${currentId}`, formData, config)
         .then(response => {
           if (response.status !== 200) {
             alert('공지 등록 실패');
@@ -81,7 +92,10 @@ export default function (props) {
     } catch (e) {
       console.error(e);
     }
+    closeModal();
+    setState(new Number(0));
   };
+
   const changeImage = event => {
     const imageFile = event.target.files[0];
     setFile(imageFile);
@@ -113,21 +127,21 @@ export default function (props) {
           <StyledTableRow key={editData.id}>
             <StyledTableCell component='th' scope='row'>
               <input
-                type='content'
+                type='description'
                 value={noticeTitle}
                 onChange={handleNoticeTitle}
               />
             </StyledTableCell>
             <StyledTableCell component='th' scope='row'>
               <input
-                type='content'
+                type='description'
                 value={noticeContent}
                 onChange={handleNoticeContent}
               />
             </StyledTableCell>
             <StyledTableCell component='th' scope='row'>
               <label htmlFor='input-edit-file'>
-                <PreviewImg src={preview} alt='preview image' />
+                <Image src={preview} alt='preview image' />
               </label>
               <input
                 type='file'

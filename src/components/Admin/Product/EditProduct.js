@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { addComma } from '../../../util/function/SharedFunction';
-import { defaultImg } from '../../../dummyData/img/defaultImg';
+// import { defaultImg } from '../../../dummyData/img/defaultImg';
+import Image from '../../Common/Image';
 
 const EditProduct = ({
   name,
@@ -13,13 +14,11 @@ const EditProduct = ({
   id,
   deleteClick,
 }) => {
-  const handleImgError = e => {
-    e.target.src = defaultImg;
-  };
+  console.log(img);
   return (
     <ProductDiv>
       <ProductInfo>
-        <Img src={img} onError={handleImgError} />
+        <Image src={img} alt={'edit image'} />
         <ProductBasic>
           <H4>{name}</H4>
           <Category>{category}</Category>
@@ -54,7 +53,7 @@ const ProductInfo = styled.div`
   padding: 10px;
 `;
 
-const Img = styled.img`
+const Img = styled(Image)`
   width: 100%;
 `;
 

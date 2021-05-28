@@ -40,6 +40,7 @@ export default ({
   handleLowPrice,
   highPrice,
   handleHighPrice,
+  seeProductFunction,
   onSearch,
   setIsEdit,
   previewImg,
@@ -97,6 +98,7 @@ export default ({
               customEditFileBtn={customEditFileBtn}
               selectChange={selectChange}
               editPreview={editPreview}
+              seeProductFunction={seeProductFunction}
             />
           </Article>
         )}
@@ -169,6 +171,7 @@ export default ({
                 selectChange={selectChange}
                 editData2={editData2}
                 editPreview={editPreview}
+                seeProductFunction={seeProductFunction}
               />
             )}
           </ModalContent>

@@ -16,12 +16,13 @@ import NoticeData from '../../../dummyData/NoticeData.json';
 import styled from 'styled-components';
 import EditIcon from '@material-ui/icons/Edit';
 import Modal from './Modal';
+import Image from '../../Common/Image';
 
-export default function NoticeList () {
+export default function NoticeList ({ state, setState }) {
   const classes = useStyles();
-  const [data, setData] = useState(NoticeData);
-  const [state, setState] = useState(0);
-  // const { loading, data, error } = useFetch(`/banner?order=${state}`);
+  const [data, setData] = useState(null);
+  // const [state, setState] = useState(0);
+  // const { loading, data, error } = useFetch(`/banner?order=0`);
   const [modal, setModal] = useState(false);
   const [currentId, setCurrentId] = useState(0);
   const [activeArr, setActiveArr] = useState([1, 0, 0, 0]);
@@ -46,6 +47,10 @@ export default function NoticeList () {
     fetchUsers();
   }, [state]);
 
+  useEffect(() => {
+    setActiveArr([...activeArr]);
+  }, [data]);
+
   const getFormatDate = date => {
     const year = date.getFullYear(); //yyyy
     let month = 1 + date.getMonth(); //M
@@ -68,7 +73,8 @@ export default function NoticeList () {
     const fetchUsers = async () => {
       try {
         client.delete(file).then(response => {
-          setState(0);
+          alert('공지가 삭제되었습니다.');
+          setState(new Number(0));
         });
       } catch (e) {
         console.log('delete 실패');
@@ -81,30 +87,21 @@ export default function NoticeList () {
     deleteFetch(`/banner/${id}`);
   };
 
-  function createData (id, title, content, startDate, endDate, file) {
-    return { id, title, content, startDate, endDate, file };
+  function createData (id, title, description, startDate, endDate, file) {
+    return { id, title, description, startDate, endDate, file };
   }
-  const rows = data
-    ? data.map(obj => {
-        return createData(
-          obj.id,
-          obj.title,
-          obj.content,
-          obj.startDate,
-          obj.endDate,
-          obj.file
-        );
-      })
-    : NoticeData.map(obj => {
-        return createData(
-          obj.id,
-          obj.title,
-          obj.content,
-          obj.startDate,
-          obj.endDate,
-          obj.file
-        );
-      });
+  const rows =
+    data &&
+    data.map(obj => {
+      return createData(
+        obj.id,
+        obj.title,
+        obj.description,
+        obj.startDate,
+        obj.endDate,
+        obj.file
+      );
+    });
 
   return (
     <>
@@ -119,7 +116,7 @@ export default function NoticeList () {
           className={activeArr[1] ? classes.active : 'none'}
           onClick={() => sortData(1)}
         >
-          {'진행 예정 공지'}
+          {'종료된 공지'}
         </SortButton>
         <SortButton
           className={activeArr[2] ? classes.active : 'none'}
@@ -131,7 +128,7 @@ export default function NoticeList () {
           className={activeArr[3] ? classes.active : 'none'}
           onClick={() => sortData(3)}
         >
-          {'종료된 공지'}
+          {'진행 예정 공지'}
         </SortButton>
       </SortBlock>
       <TableContainer className={classes.root} component={Paper}>
@@ -163,13 +160,10 @@ export default function NoticeList () {
                     {row.title}
                   </StyledTableCell>
                   <StyledTableCell component='th' scope='row'>
-                    {row.content}
+                    {row.description}
                   </StyledTableCell>
                   <StyledTableCell component='th' scope='row'>
-                    <PreviewImg
-                      src={window.location.href + ':3001/' + row.file}
-                      alt='preview image'
-                    />
+                    <Image src={row.file} alt='preview image' />
                   </StyledTableCell>
                   <StyledTableCell>
                     {getFormatDate(new Date(row.startDate))}
@@ -193,7 +187,14 @@ export default function NoticeList () {
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
-            {modal && <Modal handleModal={handleModal} currentId={currentId} />}
+            {modal && (
+              <Modal
+                data={data}
+                handleModal={handleModal}
+                currentId={currentId}
+                setState={setState}
+              />
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -201,13 +202,17 @@ export default function NoticeList () {
   );
 }
 
+const PreviewImg = styled(Image)`
+  height: 200px;
+`;
+
 const SortBlock = styled.div`
   margin: 20px auto;
   text-align: center;
 `;
 
 const SortButton = styled.button`
-  width: max-content;
+  width: max-description;
   height: 50px;
   padding: 10px 20px;
   margin: 20px;
@@ -219,9 +224,6 @@ const SortButton = styled.button`
     cursor: pointer;
     background-color: #aaa;
   }
-`;
-const PreviewImg = styled.img`
-  height: 200px;
 `;
 
 const StyledTableCell = withStyles(theme => ({

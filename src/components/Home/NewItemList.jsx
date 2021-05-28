@@ -28,7 +28,7 @@ const NewItemList = ({ match, history }) => {
         </MainTitle>
         <CustomSlider {...itemSettings}>
           {data && data.map((item,index) => {
-            if (index > 4) return;
+            if (index > 3) return;
             return (
             <ItemCard
               key={item.p_id}
