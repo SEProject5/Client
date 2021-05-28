@@ -16,7 +16,7 @@ const UpdateProduct = ({
   setIsEdit,
   // editPreview,
 }) => {
-  const [productId, setProductId] = useState(0);
+  const [productId, setProductId] = useState(1);
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [categoryName, setCategoryName] = useState('');
@@ -73,7 +73,7 @@ const UpdateProduct = ({
 
   const checkPrice = /^[0-9]$/g;
 
-  const onUpdate = e => {
+  const onRegist = e => {
     e.preventDefault();
 
     // 값 검사
@@ -104,21 +104,23 @@ const UpdateProduct = ({
       setCategoryName(String(categoryName));
     }
     const formData = new FormData();
-    formData.append('p_id', productId);
     formData.append('p_name', name);
     formData.append('categoryName', categoryName);
     formData.append('price', price);
     formData.append('stock', stock);
     formData.append('description', description);
-    formData.append('file', file);
+    formData.append('file', previewUrl);
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
       },
     };
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
     try {
       client
-        .patch(`/product/${productId}`, formData, config)
+        .post(`/product`, formData, config)
         .then(response => {
           if (response.status !== 200) {
             alert('상품 등록 실패');
@@ -136,10 +138,77 @@ const UpdateProduct = ({
     }
   };
 
+  const onUpdate = e => {
+    e.preventDefault();
+
+    // 값 검사
+    if (name === '' || name === '' || name === undefined) {
+      alert('상품명을 입력해주세요');
+      return false;
+    } else if (price === '' || price === '' || price === undefined) {
+      alert('상품 가격을 입력해주세요');
+      return false;
+    } else if (checkPrice.test(price)) {
+      alert('가격은 숫자만 입력할 수 있습니다.');
+      return false;
+    } else if (categoryName === '' || categoryName === 0) {
+      alert('대분류를 선택해주세요');
+      return false;
+    } else if (file === '') {
+      alert('상품 이미지를 선택해주세요');
+      return false;
+    } else if (stock === '') {
+      alert('재고를 입력해주세요');
+      return false;
+    } else {
+      setProductId(productId);
+      setName(name);
+      setPrice(Number(price));
+      setStock(Number(stock));
+      setFile(file);
+      setDescription(String(description));
+      setCategoryName(String(categoryName));
+    }
+    const formData = new FormData();
+    formData.append('p_id', productId);
+    formData.append('p_name', name);
+    formData.append('categoryName', categoryName);
+    formData.append('price', price);
+    formData.append('stock', stock);
+    formData.append('description', description);
+    formData.append('file', previewUrl);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
+    try {
+      client
+        .patch(`/product/${productId}`, formData, config)
+        .then(response => {
+          if (response.status !== 200) {
+            alert('상품 수정 실패');
+            return;
+          }
+          alert('상품이 수정되었습니다');
+          setIsEdit(true);
+        })
+        .catch(error => {
+          setIsEdit(true);
+          alert('수정 실패');
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <>
       {editData2 === undefined ? (
-        <Form onSubmit={onUpdate}>
+        <Form onSubmit={onRegist}>
           <ProductBasicDiv>
             <ImageDiv>
               <Preview>
