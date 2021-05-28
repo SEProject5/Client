@@ -36,9 +36,7 @@ const Input = ({
 Input.propTypes = {
   placeholder: PropTypes.string,
   require: PropTypes.bool,
-  value: PropTypes.string,
   onChange: PropTypes.func,
-  type: PropTypes.string,
   id: PropTypes.string,
 };
 
