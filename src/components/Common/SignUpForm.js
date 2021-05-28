@@ -109,8 +109,8 @@ const SignUpForm = ({
           <option value='017'>017</option>
           <option value='019'>019</option>
         </Select>
-        <Input {...phone2} id={'phone2'} maxlength={4} />
-        <Input {...phone3} id={'phone3'} maxlength={4} />
+        <Input {...phone2} id={'phone2'} maxLength={4} />
+        <Input {...phone3} id={'phone3'} maxLength={4} />
       </PhoneBox>
       <Button text={ButtonText} type={'submit'} id={'createAccountBtn'} />
       {ButtonText === 'Create Account' && (

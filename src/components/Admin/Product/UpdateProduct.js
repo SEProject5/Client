@@ -104,20 +104,22 @@ const UpdateProduct = ({
       setCategoryName(String(categoryName));
     }
     const formData = new FormData();
+    console.log(file);
+    console.log(previewUrl);
     formData.append('p_name', name);
     formData.append('categoryName', categoryName);
     formData.append('price', price);
     formData.append('stock', stock);
     formData.append('description', description);
-    formData.append('file', previewUrl);
+    formData.append('img', file);
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
       },
     };
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1]);
+    // }
     try {
       client
         .post(`/product`, formData, config)
@@ -176,15 +178,13 @@ const UpdateProduct = ({
     formData.append('price', price);
     formData.append('stock', stock);
     formData.append('description', description);
-    formData.append('file', previewUrl);
+    formData.append('img', file);
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
       },
     };
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+
     try {
       client
         .patch(`/product/${productId}`, formData, config)
@@ -216,7 +216,7 @@ const UpdateProduct = ({
               </Preview>
               <input
                 type='file'
-                name='file'
+                name='img'
                 id={'fileInput'}
                 accept={'image/*'}
                 hidden={true}

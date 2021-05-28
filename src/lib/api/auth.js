@@ -34,7 +34,7 @@ export const register = ({ name, id, email, password }) => {
     .then(response => {
       if (response.status === 200) {
         localStorage.setItem('x-access-token', response.data.token);
-        localStorage.setItem('user', response.data);
+        localStorage.setItem('user', JSON.stringify(response.data));
         document.location.replace('/');
       } else if (response.status === 400) {
         alert('이미 존재하는 ID입니다.');
