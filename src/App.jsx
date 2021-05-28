@@ -33,9 +33,8 @@ function App() {
           <Route path="/product/:p_id" component={Product}/>
           <Route path="/myPage" component={MyPage}/>
           <Route path="/signup" component={SignUp}/>
-          {/* <Route path="/admin" component={Admin}/> */}
-          {users  && <RestrictRoute exact path="/admin" component={Admin} isAllow={users.user_type === 'admin'} Fallback={GoToMainPage} /> }
-
+          <Route path="/admin" component={Admin}/>
+          {/* {users  && <RestrictRoute exact path="/admin" component={Admin} isAllow={users.user_type === 'admin'} Fallback={GoToMainPage} /> } */}
         </Layout>
       </Suspense>
     </Switch>
