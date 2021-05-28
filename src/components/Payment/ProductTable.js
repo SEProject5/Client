@@ -27,40 +27,16 @@ const ProductTable = ({
       <Table>
         <Thead>
           <tr>
-            {
-              <Th scope='col'>
-                <input
-                  type='checkBox'
-                  onChange={e => allCheck(e.target.checked)}
-                />
-              </Th>
-            }
             <Th scope='col'>product</Th>
             <Th scope='col'>Name (Option) </Th>
             <Th scope='col'>price</Th>
             <Th scope='col'>Quantity</Th>
-            {allCheck && <Th scope='col'>select</Th>}
           </tr>
         </Thead>
         <tbody>
-          {!cartData ||
-            (cartData.length === 0 && (
-              <tr>
-                <td id={'emptyTd'} colSpan='6'>
-                  장바구니가 비어있습니다.
-                </td>
-              </tr>
-            ))}
           {cartData &&
             cartData.map((item, index) => (
               <tr key={index}>
-                <td>
-                  <input
-                    id={item.productSeq}
-                    type='checkBox'
-                    onChange={e => e.target.checked}
-                  />
-                </td>
                 <td>
                   <Link to={`/product/${item.productSeq}`}>
                     <Image src={item.file} alt={item.productSeq} />
@@ -77,45 +53,13 @@ const ProductTable = ({
                 <BoldTd>￦{addComma(item.price)}</BoldTd>
                 <td>
                   <SelectedCount2>
-                    <SelectedCountTextDiv2>
-                      {productNum[index]}
+                    <SelectedCountTextDiv2 style={{ fontSize: '1.2rem' }}>
+                      {productNum[index] + '개'}
                     </SelectedCountTextDiv2>
-                    <SelectedCountBtnDiv>
-                      <Button text={'▲'} onClick={() => cartCountUp(index)} />
-                      <Button text={'▼'} onClick={() => cartCountDown(index)} />
-                    </SelectedCountBtnDiv>
                   </SelectedCount2>
-                </td>
-                <td>
-                  <button onClick={() => passCartId(item.productSeq)}>
-                    삭제
-                  </button>
                 </td>
               </tr>
             ))}
-          {/* {paymentData &&
-            paymentData.seePayment.map((item, index) =>
-              item.product.map((product, index2) =>
-                product.files.map(file => (
-                  <tr key={index}>
-                    <PaymentTd></PaymentTd>
-                    <td style={{ height: '141px' }}>
-                      <img
-                        style={{ height: '120px' }}
-                        src={file.url}
-                        alt={file.id}
-                      />
-                    </td>
-                    <td>
-                      <div>{product.name}</div>
-                      {item.size[index2].size}/{item.color[index2].color}
-                    </td>
-                    <td>￦{addComma(product.price)}</td>
-                    <td>{item.count[index2].count}</td>
-                  </tr>
-                ))
-              )
-            )} */}
         </tbody>
         {!isNaN(total) && cartData && (
           <tfoot>
@@ -178,6 +122,7 @@ const Table = styled.table`
     vertical-align: middle;
   }
   td {
+    min-width: 220px;
     text-align: center;
     vertical-align: middle;
   }
@@ -272,21 +217,21 @@ const Table = styled.table`
       text-align: left;
       color: darkgray;
     }
-    td:nth-child(3):before {
+    td:nth-child(2):before {
       content: 'Name (Option)';
     }
-    td:nth-child(4):before {
+    td:nth-child(3):before {
       content: 'Price';
     }
-    td:nth-child(5):before {
+    td:nth-child(4):before {
       content: 'Quantity';
     }
   }
 `;
 
 const Thead = styled.thead`
-  background-color: ${props => props.theme.confirmColor};
-  color: black;
+  color: white;
+  background-color: black;
 `;
 
 const Th = styled.th`
@@ -324,7 +269,7 @@ const PaymentTd = styled.td`
 
 const ButtonDiv = styled.div`
   button {
-    background-color: ${props => props.theme.confirmColor};
-    color: #fff;
+    color: white;
+    background-color: black;
   }
 `;

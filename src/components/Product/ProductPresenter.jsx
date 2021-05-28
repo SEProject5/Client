@@ -6,7 +6,8 @@ import Button from '../Common/Button';
 import { UpArrowIcon, CartIcon, CloseIcon } from '../Common/Icons';
 import { Link } from "react-router-dom";
 import { addComma } from "../../util/function/SharedFunction";
-import {defaultImg} from '../../dummyData/img/defaultImg';
+// import {defaultImg} from '../../dummyData/img/defaultImg';
+import Image from '../Common/Image';
 
 export default function ProductPresenter({
     data,
@@ -23,9 +24,7 @@ export default function ProductPresenter({
     myId, 
     addPayment
 }){
-    const handleImgError = (e) => {
-    	e.target.src = defaultImg;
-    }
+
     return (
         <Product>
                 <ProductWrapper>
@@ -37,9 +36,8 @@ export default function ProductPresenter({
                             <ProductDiv>
                                 <ProductImgDiv>
                                     {data.file &&
-                                        <ProductImg 
-                                            src={window.location.href+":3001/"+data.file}
-                                            onError={handleImgError}
+                                        <Image 
+                                            src={data.file}
                                         />
                                     }
       
@@ -110,7 +108,7 @@ export default function ProductPresenter({
                                             <span>장바구니에 상품이 성공적으로 담겼습니다.</span>
                                         </ConfirmContentDiv>
                                         <ConfirmButtonDiv>
-                                            <Link to={`/${myId}`} >
+                                            <Link to={`/myPage`} >
                                                 <Button text={"장바구니 이동"} />
                                             </Link>
                                             <Button text={"쇼핑 계속하기"} onClick={() => confirmClose()}/>
@@ -124,9 +122,8 @@ export default function ProductPresenter({
                                         <H3>상세 정보</H3>
                                     </SizeTitleDiv>
                                     {data.file &&
-                                        <SizeImg
-                                            src={window.location.href+":3001/"+data.file}
-                                            onError={handleImgError}
+                                        <Image
+                                            src={data.file}
                                         />
                                     }
                                 </SizeDiv>

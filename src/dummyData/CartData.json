@@ -2,19 +2,19 @@
   {
       "cartSeq": 1,
       "userSeq": 1,
-      "productSeq": 3,
-      "price": 10000,
-      "p_name": "product1 in cart",
-      "file": "https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg",
+      "productSeq": 11,
+      "price": 100000,
+      "p_name": "아우터1",
+      "file": "uploads/1622224479030_outer-01.jpg",
       "productNum": 5
   },
   {
       "cartSeq": 2,
       "userSeq": 1,
-      "productSeq": 4,
-      "price": 10000,
-      "p_name": "product2 in cart",
-      "file": "https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg",
+      "productSeq": 12,
+      "price": 20000,
+      "p_name": "bottom",
+      "file": "uploads/1622225574827_bottom-02.jpg",
       "productNum": 5
   }
 ]
