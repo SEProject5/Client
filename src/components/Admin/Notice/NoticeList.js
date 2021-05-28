@@ -64,10 +64,10 @@ export default function NoticeList () {
     setCurrentId(id);
   };
 
-  const deleteFetch = url => {
+  const deleteFetch = file => {
     const fetchUsers = async () => {
       try {
-        client.delete(url).then(response => {
+        client.delete(file).then(response => {
           setState(0);
         });
       } catch (e) {
@@ -81,8 +81,8 @@ export default function NoticeList () {
     deleteFetch(`/banner/${id}`);
   };
 
-  function createData (id, title, content, startDate, endDate, url) {
-    return { id, title, content, startDate, endDate, url };
+  function createData (id, title, content, startDate, endDate, file) {
+    return { id, title, content, startDate, endDate, file };
   }
   const rows = data
     ? data.map(obj => {
@@ -92,7 +92,7 @@ export default function NoticeList () {
           obj.content,
           obj.startDate,
           obj.endDate,
-          obj.url
+          obj.file
         );
       })
     : NoticeData.map(obj => {
@@ -102,7 +102,7 @@ export default function NoticeList () {
           obj.content,
           obj.startDate,
           obj.endDate,
-          obj.url
+          obj.file
         );
       });
 
@@ -166,7 +166,10 @@ export default function NoticeList () {
                     {row.content}
                   </StyledTableCell>
                   <StyledTableCell component='th' scope='row'>
-                    <PreviewImg src={row.url} alt='preview image' />
+                    <PreviewImg
+                      src={window.location.href + ':3001/' + row.file}
+                      alt='preview image'
+                    />
                   </StyledTableCell>
                   <StyledTableCell>
                     {getFormatDate(new Date(row.startDate))}

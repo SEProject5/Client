@@ -4,8 +4,7 @@ export const EDIT_SEE_PRODUCT = [
     p_name: '티셔츠1',
     price: 10000,
     categoryName: 'top',
-    file:
-      'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+    file: 'https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg',
     description: '상세 설명입니다.',
     exist: 1,
     stock: 10,
@@ -17,8 +16,7 @@ export const EDIT_SEE_PRODUCT = [
     p_name: '티셔츠2',
     price: 10000,
     categoryName: 'outer',
-    file:
-      'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+    file: 'https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg',
     description: '상세 설명입니다.',
     exist: 1,
     stock: 10,
@@ -30,8 +28,7 @@ export const EDIT_SEE_PRODUCT = [
     p_name: '티셔츠3',
     price: 10000,
     categoryName: 'bottom',
-    file:
-      'https://firebasestorage.googleapis.com/v0/b/react-chanstyle.appspot.com/o/images%2F%EC%BB%A4%EB%B2%84%EB%82%ABWhite.jpg?alt=media&token=ad4e9651-eafc-45ba-8f77-86245b85ae90',
+    file: 'https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg',
     description: '상세 설명입니다.',
     exist: 1,
     stock: 10,

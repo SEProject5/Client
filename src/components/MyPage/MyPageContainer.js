@@ -90,7 +90,7 @@ function MyPageContainer ({ match, history }) {
       productSeq: current.productSeq,
       price: current.price,
       p_name: current.p_name,
-      image: current.image,
+      file: window.location.href + ':3001/' + current.file,
       productNum: current.productNum,
     };
   };

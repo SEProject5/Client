@@ -63,7 +63,7 @@ const ProductTable = ({
                 </td>
                 <td>
                   <Link to={`/product/${item.productSeq}`}>
-                    <img src={item.image} alt={item.productSeq} />
+                    <img src={item.file} alt={item.productSeq} />
                   </Link>
                 </td>
                 <BoldTd>

@@ -97,7 +97,7 @@ export default () => {
       p_name: name,
       price: price,
       categoryName: category,
-      file: file,
+      file: window.location.href + ':3001/' + file,
       stock: stock,
       productDetailFiles: file,
     };

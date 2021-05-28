@@ -6,7 +6,7 @@ import Button from '../Common/Button';
 import { UpArrowIcon, CartIcon, CloseIcon } from '../Common/Icons';
 import { Link } from "react-router-dom";
 import { addComma } from "../../util/function/SharedFunction";
-import errorImg from '../../dummyData/img/errorImg.jpg';
+import {defaultImg} from '../../dummyData/img/defaultImg';
 
 export default function ProductPresenter({
     data,
@@ -24,7 +24,7 @@ export default function ProductPresenter({
     addPayment
 }){
     const handleImgError = (e) => {
-    	e.target.src = errorImg;
+    	e.target.src = defaultImg;
     }
     return (
         <Product>
@@ -38,7 +38,7 @@ export default function ProductPresenter({
                                 <ProductImgDiv>
                                     {data.file &&
                                         <ProductImg 
-                                            src={data.file}
+                                            src={window.location.href+":3001/"+data.file}
                                             onError={handleImgError}
                                         />
                                     }
@@ -125,7 +125,7 @@ export default function ProductPresenter({
                                     </SizeTitleDiv>
                                     {data.file &&
                                         <SizeImg
-                                            src={data.file}
+                                            src={window.location.href+":3001/"+data.file}
                                             onError={handleImgError}
                                         />
                                     }

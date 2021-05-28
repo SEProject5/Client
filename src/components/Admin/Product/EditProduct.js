@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { addComma } from '../../../util/function/SharedFunction';
-import errorImg from '../../../dummyData/img/errorImg.jpg';
+import { defaultImg } from '../../../dummyData/img/defaultImg';
 
 const EditProduct = ({
   name,
@@ -14,7 +14,7 @@ const EditProduct = ({
   deleteClick,
 }) => {
   const handleImgError = e => {
-    e.target.src = errorImg;
+    e.target.src = defaultImg;
   };
   return (
     <ProductDiv>

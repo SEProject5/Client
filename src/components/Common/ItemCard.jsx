@@ -2,17 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { addComma } from "../../util/function/SharedFunction";
-import errorImg from '../../dummyData/img/top-02.jpg';
+import {defaultImg} from '../../dummyData/img/defaultImg';
 
 export default function ItemCard({ imgSrc, title, price, id }){
 
     const handleImgError = (e) => {
-    	e.target.src = errorImg;
+    	e.target.src = defaultImg;
     }
     return (
         <Link to={`/product/${id}`}>
             <ItemDiv>
-                <Img mode={"fit"} src={imgSrc} onError={handleImgError} />
+                <Img mode={"fit"} src={window.location.href+":3001/"+imgSrc} onError={handleImgError} />
                 <TextDiv>
                     <P>{title}</P>
                     <P>￦{addComma(price)}</P>

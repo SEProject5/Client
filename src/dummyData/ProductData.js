@@ -5,7 +5,7 @@ export const SEEITEM = {
   categoryName: 'outer',
   price: 30000,
   stock: 10,
-  file: 'uploads/1622016655460_Unknown.jpg',
+  file: 'https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg',
   exist: 1,
   createdAt: '2021-05-26T08:10:55.000Z',
   updatedAt: '2021-05-27T18:03:25.000Z',

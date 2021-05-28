@@ -5,7 +5,7 @@
       "productSeq": 3,
       "price": 10000,
       "p_name": "product1 in cart",
-      "image": "https://m.adererror.com/2021ss/TOP/BKASSSW04BK/1.jpg",
+      "file": "https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg",
       "productNum": 5
   },
   {
@@ -14,7 +14,7 @@
       "productSeq": 4,
       "price": 10000,
       "p_name": "product2 in cart",
-      "image": "https://m.adererror.com/2021ss/TOP/BKASSSW04BK/2.jpg",
+      "file": "https://i.ytimg.com/vi/V_ogge8xfDs/maxresdefault.jpg",
       "productNum": 5
   }
 ]

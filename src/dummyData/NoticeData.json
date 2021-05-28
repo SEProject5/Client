@@ -5,8 +5,7 @@
     "content":"공지 내용",
     "startDate":"2021-03-02T00:00:00.000Z",
     "endDate": "2021-03-03T00:00:00.000Z",
-    "file":{},
-    "url": "https://siiiido.com/web/product/big/202105/b682ae9af2ecad8e4065584d30193fca.jpg"
+    "file": "https://siiiido.com/web/product/big/202105/b682ae9af2ecad8e4065584d30193fca.jpg"
   },
   {
   "id": "2",
@@ -14,7 +13,6 @@
   "content":"공지 내용",
   "startDate":"2021-03-02T00:00:00.000Z",
   "endDate": "2021-03-03T00:00:00.000Z",
-  "file":{},
-  "url": "https://siiiido.com/web/product/big/202105/3ffd54187ea732034e3ff76180fc16b6.jpg"
+  "file": "https://siiiido.com/web/product/big/202105/3ffd54187ea732034e3ff76180fc16b6.jpg"
   }
 ]
