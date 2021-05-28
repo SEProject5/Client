@@ -97,12 +97,13 @@ function Notice (props) {
     formData.append('banner_type', 'notice');
     formData.append('startDate', startDate);
     formData.append('endDate', endDate);
-    formData.append('image', previewUrl);
+    formData.append('img', file);
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
       },
     };
+    console.log(file);
     try {
       client
         .post('/banner', formData, config)
@@ -218,7 +219,7 @@ function Notice (props) {
               )}
               <input
                 type='file'
-                name='image'
+                name='img'
                 id='input-file'
                 accept='image/*'
                 onChange={processImage}
