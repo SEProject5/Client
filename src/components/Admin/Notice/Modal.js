@@ -229,7 +229,6 @@ const ModalBox = styled.div`
   left: 25%;
   z-index: 10;
   width: 70%;
-  height: 420px;
   background-color: white;
   border: 1px solid gray;
 `;
@@ -245,6 +244,7 @@ const StyledTableCell = withStyles(theme => ({
   },
   body: {
     fontSize: 14,
+    maxWidth: 200,
     minWidth: 100,
     contentAlign: 'center',
   },

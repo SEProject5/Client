@@ -72,8 +72,8 @@ function Notice (props) {
   const { classes, setState } = props;
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
-  const [startDate, setStartDate] = useState(new Date('2021-11-14T21:11:54'));
-  const [endDate, setEndDate] = useState(new Date('2021-11-19T21:11:54'));
+  const [startDate, setStartDate] = useState(new Date('2021-05-26T21:11:54'));
+  const [endDate, setEndDate] = useState(new Date('2021-06-16T21:11:54'));
   const [file, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
 
@@ -103,7 +103,6 @@ function Notice (props) {
         'content-type': 'multipart/form-data',
       },
     };
-    console.log(startDate);
     try {
       client
         .post('/banner', formData, config)
