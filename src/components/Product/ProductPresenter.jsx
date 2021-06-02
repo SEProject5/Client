@@ -91,7 +91,24 @@ export default function ProductPresenter({
                                     <ButtonDiv>
                                         <Form>
                                             <Button text="Cart" onClick={() => addCart(selected, data, count)}/>
-                                            <Button p_id={"OrderBtn"} text={"Order Now"} onClick={() => addPayment(selected, data, count)} />
+                                            {/* <Button p_id={"OrderBtn"} text={"Order Now"} onClick={() => addPayment(selected, data, count)} /> */}
+                                            <Link to={{
+                                                pathname: `/payment`,
+                                                state : {
+                                                    data : [{
+                                                        productSeq: data.p_id,
+                                                        Product: {
+                                                            price: data.price,
+                                                            p_name: data.p_name,
+                                                            file: data.file,
+                                                        },
+                                                        productNum: count,
+                                                        }],
+                                                    total: data.price*count,
+                                                    totalArr: [data.price*count],
+                                                    productNumArr: [count],
+                                                }
+                                            }} style={linkStyle}>{'주문하기'}</Link>
                                         </Form>
                                     </ButtonDiv>
                                 </ProductInfoDiv>
@@ -136,7 +153,11 @@ export default function ProductPresenter({
     )
 }
 
-
+const linkStyle = {
+    color:'black',
+    textAlign:'center',
+    TextDecoration : 'none'
+}
 
 
 const options = {

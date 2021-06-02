@@ -37,10 +37,10 @@ export default function Search({setData}) {
     }
     const fetchProducts = async () => {
       try {
-        const response = await client.get(url, {
+        const response = await client.post(`http://ec2-13-125-128-80.ap-northeast-2.compute.amazonaws.com:3001${url}`, {
           lowPrice: lowPrice,
           highPrice: highPrice,
-        });
+        })
         setData(response.data);
       } catch (e) {
         console.log('fetch 실패');

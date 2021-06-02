@@ -22,7 +22,7 @@ export default () => {
 
   // 상품 수정을 위한 state
 
-  const [editData, setEditData] = useState();
+  const [editData, setEditData] = useState(EDIT_SEE_PRODUCT);
   const [editData2, setEditData2] = useState();
   const [isEdit, setIsEdit] = useState(false);
 
@@ -54,10 +54,13 @@ export default () => {
     }
     const fetchProducts = async () => {
       try {
-        const response = await client.get(url, {
-          lowPrice: lowPrice,
-          highPrice: highPrice,
-        });
+        const response = await client.post(
+          `http://ec2-13-125-128-80.ap-northeast-2.compute.amazonaws.com:3001${url}`,
+          {
+            lowPrice: lowPrice,
+            highPrice: highPrice,
+          }
+        );
         setEditData(response.data);
       } catch (e) {
         console.log('fetch 실패');
@@ -75,10 +78,10 @@ export default () => {
   };
 
   const handleLowPrice = e => {
-    setLowPrice(e.target.value);
+    setLowPrice(Number(e.target.value));
   };
   const handleHighPrice = e => {
-    setHighPrice(e.target.value);
+    setHighPrice(Number(e.target.value));
   };
 
   useEffect(() => {
@@ -145,7 +148,7 @@ export default () => {
 
   //   if (getFile) {
   //     reader.readAsDataURL(getFile[0]);
-  //     setFile(getFile[0]);
+  //     setFiles(getFile[0]);
   //   }
   // };
 
@@ -195,7 +198,7 @@ export default () => {
 
   //   if (getFile) {
   //     reader.readAsDataURL(getFile[0]);
-  //     setFile(getFile[0]);
+  //     setFiles(getFile[0]);
   //   }
   // };
 
@@ -278,7 +281,7 @@ export default () => {
     if (message) {
       try {
         client
-          .delete(`/product/${id}`)
+          .patch(`/product/${id}`)
           .then(response => {
             if (response.status !== 200) {
               alert('상품 삭제 실패');

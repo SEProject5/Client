@@ -56,26 +56,32 @@ export const logout = () => {
   document.location.replace('/');
 };
 
-export const checkId = ({ id }) =>
-  client
-    .get('/auth/join/checkId', { id: id })
-    .then(response => {
-      if (response.status === 400) {
-        alert('이미 존재하는 ID입니다.');
-        return false;
-      } else if (response.status === 200) {
-        alert('사용할 수 있는 ID입니다.');
-        return true;
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      alert('아이디 중복 체크 실패');
-    });
+// 중복체크
+export const checkId = ({ id }) => {
+  try {
+    client
+      .post('/auth/join/checkId', { id })
+      .then(response => {
+        if (response.status === 400) {
+          alert('이미 존재하는 ID입니다.');
+          return false;
+        } else if (response.status === 200) {
+          alert('사용할 수 있는 ID입니다.');
+          return true;
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        alert('아이디 중복 체크 실패');
+      });
+  } catch (e) {
+    console.error(e);
+  }
+};
 
-export const checkEmail = ({ email }) =>
+export const checkEmail = ({ email }) => {
   client
-    .get('/auth/join/checkEmail', { email: email })
+    .post('/auth/join/checkEmail', { email })
     .then(response => {
       if (response.status === 400) {
         alert('이미 존재하는 메일입니다.');
@@ -88,3 +94,4 @@ export const checkEmail = ({ email }) =>
     .catch(error => {
       alert('이메일 중복 체크 실패');
     });
+};

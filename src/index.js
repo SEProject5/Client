@@ -34,9 +34,7 @@ loadUser();
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <Route path='/' component={App} />
-    </BrowserRouter>
+    <App />
   </Provider>,
   document.getElementById('root')
 );

@@ -25,6 +25,7 @@ const RegisterContainer = ({ history }) => {
   const [isOverlapEmail, setIsOverlapEmail] = useState(false);
 
   const chk_password = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
+  const chk_name = /\s/g;
 
   // 인풋 변경 이벤트 핸들러
   const onChange = e => {
@@ -44,9 +45,10 @@ const RegisterContainer = ({ history }) => {
       alert('아이디를 입력하세요');
       return;
     }
-    // checkId({ id }).then(response => setIsOverlapId(!response));
-    alert('사용 가능한 아이디입니다.');
-    setIsOverlapId(false);
+    if (checkId({ id })) {
+      setIsOverlapId(false);
+      return;
+    }
   };
 
   const checkOverlapEmail = () => {
@@ -55,9 +57,10 @@ const RegisterContainer = ({ history }) => {
       alert('이메일을 입력하세요');
       return;
     }
-    // checkEmail({ email }).then(response => setIsOverlapEmail(!response));
-    alert('사용 가능한 이메일입니다.');
-    setIsOverlapEmail(false);
+    if (checkEmail({ email })) {
+      setIsOverlapEmail(false);
+      return;
+    }
   };
 
   // 폼 등록 이벤트 핸들러
@@ -76,6 +79,11 @@ const RegisterContainer = ({ history }) => {
       dispatch(
         changeField({ form: 'register', key: 'passwordConfirm', value: '' })
       );
+      return;
+    }
+    if (name.match(chk_name)) {
+      console.log(name);
+      setError('올바른 이름을 입력하세요');
       return;
     }
 

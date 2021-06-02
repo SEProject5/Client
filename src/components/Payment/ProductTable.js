@@ -8,18 +8,14 @@ import {
   SelectedCountTextDiv,
   SelectedCountBtnDiv,
 } from '../Product/ProductPresenter';
-import { addComma } from '../../util/function/SharedFunction';
+import {} from '../../util/function/SharedFunction';
 import Image from '../Common/Image';
 const ProductTable = ({
-  allCheck,
   cartData,
+  totalArr,
   count,
-  cartCountUp,
-  cartCountDown,
-  passCartId,
   total,
   selectOrder,
-  paymentData,
   productNum,
 }) => {
   return (
@@ -31,6 +27,7 @@ const ProductTable = ({
             <Th scope='col'>Name (Option) </Th>
             <Th scope='col'>price</Th>
             <Th scope='col'>Quantity</Th>
+            <Th scope='col'>Total</Th>
           </tr>
         </Thead>
         <tbody>
@@ -39,7 +36,7 @@ const ProductTable = ({
               <tr key={index}>
                 <td>
                   <Link to={`/product/${item.productSeq}`}>
-                    <Image src={item.file} alt={item.productSeq} />
+                    <Image src={item.Product.file} alt={item.productSeq} />
                   </Link>
                 </td>
                 <BoldTd>
@@ -47,10 +44,10 @@ const ProductTable = ({
                     to={`/product/${item.productSeq}`}
                     style={{ textDecoration: 'none', color: 'black' }}
                   >
-                    <div>{item.p_name}</div>
+                    <div>{item.Product.p_name}</div>
                   </Link>
                 </BoldTd>
-                <BoldTd>￦{addComma(item.price)}</BoldTd>
+                <BoldTd>￦{item.Product.price}</BoldTd>
                 <td>
                   <SelectedCount2>
                     <SelectedCountTextDiv2 style={{ fontSize: '1.2rem' }}>
@@ -58,6 +55,7 @@ const ProductTable = ({
                     </SelectedCountTextDiv2>
                   </SelectedCount2>
                 </td>
+                <BoldTd>￦{totalArr[index]}</BoldTd>
               </tr>
             ))}
         </tbody>
@@ -65,39 +63,21 @@ const ProductTable = ({
           <tfoot>
             <tr>
               <BoldTd colSpan='1'>Total</BoldTd>
-              <td colSpan='4'></td>
-              <BoldTd colSpan='1'>￦{addComma(total)}</BoldTd>
-            </tr>
-          </tfoot>
-        )}
-        {!isNaN(total) && paymentData && (
-          <tfoot>
-            <tr>
-              <BoldTd colSpan='1'>Total</BoldTd>
-              <td colSpan='2'></td>
-              <BoldTd colSpan='1'>￦{addComma(total)}</BoldTd>
+              <td colSpan='1' style={{ color: 'red' }}>
+                ￦{total}
+              </td>
             </tr>
           </tfoot>
         )}
       </Table>
       <ResponsiveTotalDiv id={'responsiveTotalDiv'}>
-        Total : ￦{addComma(total)}
+        <p>Total : ￦{total}</p>
       </ResponsiveTotalDiv>
-      {cartData && (
-        <ButtonDiv>
-          <Button
-            id={'cartOrderBtn'}
-            text={'Order Now'}
-            onClick={() => selectOrder()}
-          />
-        </ButtonDiv>
-      )}
     </>
   );
 };
 
 ProductTable.propTypes = {
-  allCheck: PropTypes.func,
   cartData: PropTypes.array,
   count: PropTypes.array,
   productNum: PropTypes.array,
@@ -122,7 +102,7 @@ const Table = styled.table`
     vertical-align: middle;
   }
   td {
-    min-width: 220px;
+    min-width: 178px;
     text-align: center;
     vertical-align: middle;
   }
@@ -241,6 +221,7 @@ const Th = styled.th`
 
 const BoldTd = styled.td`
   font-weight: 600;
+  color: black;
 `;
 
 const SelectedCount2 = styled(SelectedCount)`

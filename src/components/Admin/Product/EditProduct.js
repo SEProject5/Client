@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { addComma } from '../../../util/function/SharedFunction';
 // import { defaultImg } from '../../../dummyData/img/defaultImg';
 import Image from '../../Common/Image';
@@ -12,12 +12,14 @@ const EditProduct = ({
   stock,
   editClick,
   id,
+  exist,
   deleteClick,
 }) => {
-  console.log(img);
+  const active = exist ? true : false;
   return (
     <ProductDiv>
-      <ProductInfo>
+      {!active && <UnActiveBar>{'X'}</UnActiveBar>}
+      <ProductInfo exist={active}>
         <Image src={img} alt={'edit image'} />
         <ProductBasic>
           <H4>{name}</H4>
@@ -41,7 +43,16 @@ const EditProduct = ({
 
 export default EditProduct;
 
+const UnActiveBar = styled.h1`
+  position: absolute;
+  top: 40%;
+  left: 45%;
+  width: 100%;
+  font-size: 2rem;
+`;
+
 const ProductDiv = styled.div`
+  position: relative;
   ${props => props.theme.whiteBox};
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -51,6 +62,11 @@ const ProductDiv = styled.div`
 
 const ProductInfo = styled.div`
   padding: 10px;
+  ${props =>
+    !props.exist &&
+    css`
+      opacity: 0.4;
+    `}
 `;
 
 const Img = styled(Image)`

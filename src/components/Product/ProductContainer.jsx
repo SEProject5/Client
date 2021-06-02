@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import client from '../../lib/api/client';
 import useFetch from '../../lib/api/useFetch';
+import {useSelector} from 'react-redux';
 import ProductPresenter from "./ProductPresenter";
 import { SEEITEM } from "../../dummyData/ProductData";
 import {withRouter} from 'react-router-dom'
@@ -29,6 +30,7 @@ function ProductContainer({ match, history }){
         )
     }
 
+    let { user } = useSelector(({ user }) => ({ user: user.user }));
 
 
     useEffect(() => {
@@ -124,30 +126,12 @@ function ProductContainer({ match, history }){
     const [success, setSuccess] = useState(false);
 
     const addCart = async (selected, product, count) => {
-        // if(!isLoggedIn) {
-        //     alert("로그인이 필요합니다.");
-        // } else {
-            if(selected.length !== 0) {
-                selected.map((item,index) => {
-                    return (
-                        productArray.push(product.id),
-                        stockIdArray.push(item.stockId), 
-                        countArray.push(count)
-                    )
-                }); 
-                setSuccess(true);
-            }
-    }
+        const data = {userSeq: user.id, productSeq: product.p_id, productNum: count}
+        console.log(data);
+        client.post('/cart', data).then(response => {
+            console.log('장바구니 등록 성공');
+        }).catch(e => console.log(e));
 
-
-    const confirmClose = () => {
-        setSuccess(false);
-    }
-
-    const addPayment = async (selected, product, count) => {
-        // if(!isLoggedIn) {
-        //     alert("로그인이 필요합니다.");
-        // } else {
         if(selected.length !== 0) {
             selected.map((item,index) => {
                 return (
@@ -156,11 +140,19 @@ function ProductContainer({ match, history }){
                     countArray.push(count)
                 )
             }); 
-            setTimeout(() => history.push('/payment'), 500); 
-            // }
-        } else {
-            alert("상품의 옵션을 선택해 주세요");
+            setSuccess(true);
         }
+    }
+
+
+    const confirmClose = () => {
+        setSuccess(false);
+    }
+
+    const addPayment = async (selected, product, count) => {
+        const data = {productSeq: product.p_id, productName: product.name, productPrice: product.price, productNum:count}
+
+        // setTimeout(() => history.push('/payment'), 500); 
     }
 
     return (

@@ -47,8 +47,6 @@ const SignUpForm = ({
   onSubmit,
   name,
   email,
-  password,
-  confirmPassword,
   zipCode,
   open,
   setOpen,
@@ -65,32 +63,6 @@ const SignUpForm = ({
     <form onSubmit={onSubmit}>
       <Input placeholder={'Name'} {...name} />
       <Input placeholder={'Email'} {...email} type={'email'} />
-      {ButtonText === 'Create Account' ? (
-        <>
-          <Input placeholder={'Password'} {...password} type={'password'} />
-          <Input
-            placeholder={'Confirm Password'}
-            {...confirmPassword}
-            type={'password'}
-          />
-        </>
-      ) : (
-        <>
-          <Input
-            placeholder={'Password'}
-            {...password}
-            type={'password'}
-            required={false}
-          />
-          <Input
-            placeholder={'Confirm Password'}
-            {...confirmPassword}
-            type={'password'}
-            required={false}
-          />
-        </>
-      )}
-
       <ZipCodeBox>
         <Input placeholder={'Zip Code'} {...zipCode} id={'zipCodeInput'} />
         <Button
@@ -124,8 +96,6 @@ SignUpForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   name: PropTypes.object.isRequired,
   email: PropTypes.object.isRequired,
-  password: PropTypes.object,
-  confirmPassword: PropTypes.object,
   zipCode: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,

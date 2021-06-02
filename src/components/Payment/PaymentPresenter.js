@@ -7,43 +7,17 @@ import Loader from '../../components/Common/Loader';
 import { Pagination } from 'semantic-ui-react';
 import ProductTable from './ProductTable';
 import { addComma } from '../../util/function/SharedFunction';
-
+import Logo from '../../dummyData/img/kakaopay.png';
 export default ({
   tab,
-  clickTab,
   // 장바구니
   loading,
   cartData,
-  passCartId,
-  allCheck,
   total,
-  cartCountUp,
-  cartCountDown,
+  totalArr,
   count,
   selectOrder,
   productNum,
-  // 구매목록
-  buyData,
-  changePage,
-  buyListLoading,
-  pageNum,
-  // 개인정보 수정
-  onSubmit,
-  name,
-  email,
-  password,
-  confirmPassword,
-  zipCode,
-  address,
-  addressDetail,
-  phone1,
-  phone2,
-  phone3,
-  open,
-  setOpen,
-  handleAddress,
-  // 로그아웃
-  //   logOut,
 }) => {
   return (
     <MyPage>
@@ -51,7 +25,6 @@ export default ({
         <MyPageHeader>
           <MyTitleDiv>
             <H2>주문하기 </H2>
-            {/* <Button text={'LogOut'} onClick={() => logOut()} /> */}
           </MyTitleDiv>
         </MyPageHeader>
         {tab === 'cart' ? (
@@ -60,24 +33,45 @@ export default ({
               {loading === true && <Loader />}
               {loading === false && (
                 <ProductTable
-                  allCheck={allCheck}
                   cartData={cartData}
                   count={count}
-                  cartCountUp={cartCountUp}
-                  cartCountDown={cartCountDown}
                   productNum={productNum}
-                  passCartId={passCartId}
                   total={total}
+                  totalArr={totalArr}
                   selectOrder={selectOrder}
                 />
               )}
             </Article>
+            {cartData && (
+              <ButtonDiv>
+                <Image
+                  id={'cartOrderBtn'}
+                  src={Logo}
+                  onClick={() => selectOrder()}
+                  alt={'kakaopay'}
+                />
+              </ButtonDiv>
+            )}
           </>
         ) : null}
       </MyPageWrapper>
     </MyPage>
   );
 };
+
+const Image = styled.img`
+  width: 100px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const ButtonDiv = styled.div`
+  button {
+    color: white;
+    background-color: black;
+  }
+`;
 
 const Box = styled.article`
   width: 100%;

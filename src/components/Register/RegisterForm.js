@@ -22,7 +22,7 @@ const RegisterForm = ({
         <StyledInput
           autoComplete='name'
           name='name'
-          placeholder='이름'
+          placeholder='이름(공백 불가)'
           onChange={onChange}
           value={form.name}
         />

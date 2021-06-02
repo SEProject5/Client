@@ -20,6 +20,7 @@ export default ({
   cartCountUp,
   cartCountDown,
   count,
+  onDelete,
   selectOrder,
   productNum,
   // 구매목록
@@ -31,8 +32,6 @@ export default ({
   onSubmit,
   name,
   email,
-  password,
-  confirmPassword,
   zipCode,
   address,
   addressDetail,
@@ -99,6 +98,7 @@ export default ({
                   passCartId={passCartId}
                   total={total}
                   selectOrder={selectOrder}
+                  onDelete={onDelete}
                 />
               )}
             </Article>
@@ -111,8 +111,6 @@ export default ({
                 name={name}
                 email={email}
                 ButtonText={'Edit Profile'}
-                password={password}
-                confirmPassword={confirmPassword}
                 zipCode={zipCode}
                 address={address}
                 addressDetail={addressDetail}

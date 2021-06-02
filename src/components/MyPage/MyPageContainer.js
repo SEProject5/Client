@@ -16,14 +16,14 @@ function MyPageContainer ({ match, history }) {
   const clickTab = tabString => {
     setTab(tabString);
   };
-
+  const [state, setState] = useState(0);
   // 장바구니
-  const [cartId, setCartId] = useState('');
+  const [cartId, setCartId] = useState(null);
   const [productNum, setProductNum] = useState([]);
   const [totalarr, setTotalarr] = useState([]);
   const [total, setTotal] = useState(0);
   // 총 합계를 구하기 위한 식 (array.reduce에서 사용됨)
-  const totalFunc = (a, b) => a + b;
+  const totalFunc = (a, b) => Number(a) + Number(b);
 
   let productArray = [];
   let countArray = [];
@@ -32,15 +32,14 @@ function MyPageContainer ({ match, history }) {
   let { user } = useSelector(({ user }) => ({ user: user.user }));
   // let { loading, data, error } = useFetch(`/cart/:${user.id}`);
 
-  const [data, setData] = useState(CartData);
-  // const [deliveryData, setDeliveryData] = useState(null);
+  const [data, setData] = useState(null);
+  const [deliveryData, setDeliveryData] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!user) {
       alert('로그인이 필요합니다.');
       history.push('/');
-      // setData(CartData);
       return;
     }
     const url = `/cart/${user.id}`;
@@ -48,40 +47,38 @@ function MyPageContainer ({ match, history }) {
     const fetchUsers = async () => {
       try {
         const response = await client.get(url);
-        if (!response.data.length) return;
-        setData(response.data); // 데이터는 response.data 안에 들어있습니다.
+        setData(response.data);
+        // console.log(response.data);
       } catch (e) {}
     };
     fetchUsers();
-  }, []);
+  }, [state]);
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     setDeliveryData(DeliveryData);
-  //     return;
-  //   }
-  //   const url = `/deliver_address/${user.id}`;
+  useEffect(() => {
+    if (!user) return;
+    const url = `/deliver_address/${user.id}`;
 
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const response = await client.get(url);
-  //       setDeliveryData(response.data); // 데이터는 response.data 안에 들어있습니다.
-  //     } catch (e) {}
-  //   };
-  //   fetchUsers();
-  // }, [user, match]);
+    const fetchUsers = async () => {
+      try {
+        const response = await client.get(url);
+        setDeliveryData(response.data); // 데이터는 response.data 안에 들어있습니다.
+      } catch (e) {}
+    };
+    fetchUsers();
+  }, [user, match]);
 
   const deleteFetch = url => {
     const fetchUsers = async () => {
       try {
         const response = await client.delete(url);
+        setState(new Number(0));
       } catch (e) {}
     };
     fetchUsers();
   };
 
   const onDelete = cartSeq => {
-    deleteFetch(`/cart/:${cartSeq}`);
+    deleteFetch(`/cart/${cartSeq}`);
   };
 
   const updateFetch = (url, current) => {
@@ -90,7 +87,7 @@ function MyPageContainer ({ match, history }) {
       productSeq: current.productSeq,
       price: current.price,
       p_name: current.p_name,
-      file: window.location.href + ':3001/' + current.file,
+      file: current.file,
       productNum: current.productNum,
     };
   };
@@ -104,9 +101,10 @@ function MyPageContainer ({ match, history }) {
     const totalarrTemp = [];
     const totalTemp = [];
     if (loading === false && data) {
+      // console.log(data);
       data.map(item => countTemp.push(item.productNum));
       setProductNum([...countTemp]);
-      data.map(item => totalarrTemp.push(item.price));
+      data.map(item => totalarrTemp.push(item.Product.price));
       setTotalarr([...totalarrTemp]);
       countTemp.map((productNum, index) =>
         totalTemp.push(productNum * totalarrTemp[index])
@@ -116,10 +114,14 @@ function MyPageContainer ({ match, history }) {
       } else {
         setTotal(totalTemp.reduce(totalFunc));
       }
+      // console.log('제품 수', countTemp);
+      // console.log('가격', totalarrTemp);
+      // console.log('합 수', totalTemp);
+
       //
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, data]);
+  }, [data]);
 
   const cartCountUp = i => {
     productNum.splice(i, 1, productNum[i] + 1);
@@ -140,7 +142,7 @@ function MyPageContainer ({ match, history }) {
       productNum.map(item => countTemp.push(item));
 
       data.map((item, index) =>
-        totalarrTemp.push(countTemp[index] * item.price)
+        totalarrTemp.push(countTemp[index] * item.Product.price)
       );
       setTotalarr([...totalarrTemp]);
       if (totalarrTemp.length !== 0) {
@@ -158,53 +160,42 @@ function MyPageContainer ({ match, history }) {
 
   // passcartId함수가 실행되면 cartId의 값이 setting 되고 해당 hook(useEffect)이 실행됨
   useEffect(() => {
-    if (cartId !== '') {
+    if (cartId) {
       onDelete(cartId);
-      setCartId('');
+      setCartId(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartId]);
 
-  const allCheck = checked => {
-    if (!data) return;
-    if (checked) {
-      if (loading === false) {
-        data.map(item => {
-          const chkBox = document.getElementById(item.productSeq);
-          return (chkBox.checked = true);
-        });
-      }
-    } else {
-      if (loading === false) {
-        data.map(item => {
-          const chkBox = document.getElementById(item.productSeq);
-          return (chkBox.checked = false);
-        });
-      }
-    }
-  };
-
-  let isChecked = false;
+  let isChecked = true;
 
   const selectOrder = async () => {
     if (!data) return;
     data.map(async (item, index) => {
-      const chkBox = document.getElementById(item.productSeq);
-      if (chkBox.checked === true) {
-        isChecked = true;
-        return (
-          productArray.push(item.productSeq),
-          countArray.push(item.productNum[index]),
-          cartArray.push(item.productSeq)
-        );
-      }
+      return (
+        productArray.push(item.productSeq),
+        countArray.push(item.productNum[index]),
+        cartArray.push(item.productSeq)
+      );
     });
     if (isChecked) {
       if (data) {
         productArray = [];
         countArray = [];
         cartArray = [];
-        // setTimeout(() => history.push('/payment'), 1000);
+        setTimeout(
+          () =>
+            history.push({
+              pathname: '/payment',
+              state: {
+                data: data,
+                total: total,
+                totalArr: totalarr,
+                productNumArr: productNum,
+              },
+            }),
+          1000
+        );
       }
     }
     if (isChecked === false) {
@@ -281,21 +272,21 @@ function MyPageContainer ({ match, history }) {
   // delay가 있는 이유는 정보를 성공적으로 수정한 직후에
   // Form의 input에 있는 값들을 수정된 정보로 보여주기 위함
   // const deliveryData = useFetch(`/deliver_address/${user.id}`);
-  const deliveryData = DeliveryData;
 
   useEffect(() => {
-    if (loading === false && delay && deliveryData && user) {
-      const fullPhone = deliveryData[0].receiver_phone.split('-');
-      name.setValue(user.name);
-      email.setValue(deliveryData[0].user_id);
-      zipCode.setValue(deliveryData[0].zipCode);
-      address.setValue(deliveryData[0].address);
-      addressDetail.setValue(deliveryData[0].address_detail);
-      phone1.setValue(fullPhone[0]);
-      phone2.setValue(fullPhone[1]);
-      phone3.setValue(fullPhone[2]);
-      setDelay(false);
-    }
+    // console.log(deliveryData);
+    // if (loading === false && delay && deliveryData && user) {
+    //   const fullPhone = deliveryData[0].receiver_phone.split('-');
+    //   name.setValue(deliveryData[0].address_name);
+    //   email.setValue(deliveryData[0].user_email);
+    //   zipCode.setValue(deliveryData[0].zipCode);
+    //   address.setValue(deliveryData[0].address);
+    //   addressDetail.setValue(deliveryData[0].address_detail);
+    //   phone1.setValue(fullPhone[0]);
+    //   phone2.setValue(fullPhone[1]);
+    //   phone3.setValue(fullPhone[2]);
+    //   setDelay(false);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, delay]);
 
@@ -330,12 +321,6 @@ function MyPageContainer ({ match, history }) {
       phone2.value !== '' &&
       phone3.value !== ''
     ) {
-      if (password !== '') {
-        if (password.value !== confirmPassword.value) {
-          alert('비밀번호가 일치하지 않습니다.');
-          return false;
-        }
-      }
       if (phone2.value.length !== 4 || checkNumber.test(phone2.value)) {
         alert('전화번호는 숫자 4자리를 입력하세요');
         return false;
@@ -367,9 +352,6 @@ function MyPageContainer ({ match, history }) {
     }, 500);
   }, [data]);
 
-  // 로그아웃
-  //   const logOut = useMutation(LOG_OUT);
-
   return (
     <MyPagePresenter
       tab={tab}
@@ -377,18 +359,16 @@ function MyPageContainer ({ match, history }) {
       loading={loading}
       cartData={data}
       passCartId={passCartId}
-      allCheck={allCheck}
       total={total}
       cartCountUp={cartCountUp}
       cartCountDown={cartCountDown}
       count={countArray}
+      onDelete={onDelete}
       productNum={productNum}
       selectOrder={selectOrder}
       onSubmit={onSubmit}
       name={name}
       email={email}
-      password={password}
-      confirmPassword={confirmPassword}
       zipCode={zipCode}
       address={address}
       addressDetail={addressDetail}

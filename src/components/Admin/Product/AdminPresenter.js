@@ -150,6 +150,7 @@ export default ({
                     stock={item.stock}
                     editClick={editClick}
                     id={item.p_id}
+                    exist={item.exist}
                     deleteClick={deleteClick}
                   />
                 ))}

@@ -8,7 +8,7 @@ import {
   SelectedCountTextDiv,
   SelectedCountBtnDiv,
 } from '../Product/ProductPresenter';
-import { addComma } from '../../util/function/SharedFunction';
+import {} from '../../util/function/SharedFunction';
 import Image from '../Common/Image';
 const ProductTable = ({
   allCheck,
@@ -21,30 +21,22 @@ const ProductTable = ({
   selectOrder,
   paymentData,
   productNum,
+  onDelete,
 }) => {
   return (
     <>
       <Table>
         <Thead>
           <tr>
-            {
-              <Th scope='col'>
-                <input
-                  type='checkBox'
-                  onChange={e => allCheck(e.target.checked)}
-                />
-              </Th>
-            }
             <Th scope='col'>product</Th>
             <Th scope='col'>Name (Option) </Th>
             <Th scope='col'>price</Th>
             <Th scope='col'>Quantity</Th>
-            {allCheck && <Th scope='col'>select</Th>}
           </tr>
         </Thead>
         <tbody>
           {!cartData ||
-            (cartData.length === 0 && (
+            (!cartData[0] && (
               <tr>
                 <td id={'emptyTd'} colSpan='6'>
                   장바구니가 비어있습니다.
@@ -55,15 +47,8 @@ const ProductTable = ({
             cartData.map((item, index) => (
               <tr key={index}>
                 <td>
-                  <input
-                    id={item.productSeq}
-                    type='checkBox'
-                    onChange={e => e.target.checked}
-                  />
-                </td>
-                <td>
                   <Link to={`/product/${item.productSeq}`}>
-                    <Image src={item.file} alt={item.productSeq} />
+                    <Image src={item.Product.file} alt={item.productSeq} />
                   </Link>
                 </td>
                 <BoldTd>
@@ -71,10 +56,10 @@ const ProductTable = ({
                     to={`/product/${item.productSeq}`}
                     style={{ textDecoration: 'none', color: 'black' }}
                   >
-                    <div>{item.p_name}</div>
+                    <div>{item.Product.p_name}</div>
                   </Link>
                 </BoldTd>
-                <BoldTd>￦{addComma(item.price)}</BoldTd>
+                <BoldTd>￦{item.Product.price}</BoldTd>
                 <td>
                   <SelectedCount2>
                     <SelectedCountTextDiv2>
@@ -87,9 +72,7 @@ const ProductTable = ({
                   </SelectedCount2>
                 </td>
                 <td>
-                  <button onClick={() => passCartId(item.productSeq)}>
-                    삭제
-                  </button>
+                  <button onClick={() => onDelete(item.cartSeq)}>삭제</button>
                 </td>
               </tr>
             ))}
@@ -110,7 +93,7 @@ const ProductTable = ({
                       <div>{product.name}</div>
                       {item.size[index2].size}/{item.color[index2].color}
                     </td>
-                    <td>￦{addComma(product.price)}</td>
+                    <td>￦{(product.price)}</td>
                     <td>{item.count[index2].count}</td>
                   </tr>
                 ))
@@ -122,7 +105,7 @@ const ProductTable = ({
             <tr>
               <BoldTd colSpan='1'>Total</BoldTd>
               <td colSpan='4'></td>
-              <BoldTd colSpan='1'>￦{addComma(total)}</BoldTd>
+              <BoldTd colSpan='1'>￦{total}</BoldTd>
             </tr>
           </tfoot>
         )}
@@ -131,13 +114,13 @@ const ProductTable = ({
             <tr>
               <BoldTd colSpan='1'>Total</BoldTd>
               <td colSpan='2'></td>
-              <BoldTd colSpan='1'>￦{addComma(total)}</BoldTd>
+              <BoldTd colSpan='1'>￦{total}</BoldTd>
             </tr>
           </tfoot>
         )}
       </Table>
       <ResponsiveTotalDiv id={'responsiveTotalDiv'}>
-        Total : ￦{addComma(total)}
+        Total : ￦{total}
       </ResponsiveTotalDiv>
       {cartData && (
         <ButtonDiv>
